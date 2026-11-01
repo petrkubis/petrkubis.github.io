@@ -248,6 +248,12 @@ try {
     transition: none;
   }
 
+
+  /* ====== Karusel: každá karta přesně na středu ====== */
+  #goals-carousel { position: relative; padding-left: 0 !important; padding-right: 0 !important; scroll-padding-inline: 0; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; }
+  #goals-carousel::before, #goals-carousel::after { content: ""; flex: 0 0 calc(8% - 16px); }
+  #goals-carousel > section { flex: 0 0 84% !important; min-width: 0 !important; scroll-snap-align: center; scroll-snap-stop: always; }
+
   /* ====== AI chat: nový cíl a přeplánování ====== */
   #goal-chat, #replan-chat {
     position: fixed; inset: 0; z-index: 90;
@@ -802,9 +808,13 @@ try {
 
     function updateDots() {
       const dots = document.querySelectorAll('#carousel-dots .carousel-dot');
-      const slides = carousel.children.length;
-      const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-      const idx = maxScroll > 0 ? Math.round((carousel.scrollLeft / maxScroll) * (slides - 1)) : 0;
+      const viewCenter = carousel.scrollLeft + carousel.clientWidth / 2;
+      let idx = 0, best = Infinity;
+      for (let i = 0; i < carousel.children.length; i++) {
+        const c = carousel.children[i];
+        const dist = Math.abs(c.offsetLeft + c.offsetWidth / 2 - viewCenter);
+        if (dist < best) { best = dist; idx = i; }
+      }
       dots.forEach(function (d, n) { d.classList.toggle('active', n === idx); });
     }
 

@@ -122,6 +122,9 @@ html{scroll-behavior:smooth}
   .coach-side{justify-self:stretch}
   .toc{margin-top:-24px}
 }
+
+.phone-video .screen{background:#000}
+.phone-video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:#000}
 </style>
 <style>img{max-width:100%}</style>
 </head>
@@ -141,7 +144,7 @@ html{scroll-behavior:smooth}
     </div>
   </header>
 
-  <nav class="toc" aria-label="Projekty"><a href="#p-bigday">Big Day</a><a href="#p-rescue">iPhone Rescue</a><a href="#p-aela">AELA</a><a href="#p-klaster">Klášterní areál Ostrov</a><a href="#p-willy">Willy</a><a href="#p-coach">Coach</a></nav>
+  <nav class="toc" aria-label="Projekty"><a href="#p-bigday">Big Day</a><a href="#p-rescue">iPhone Rescue</a><a href="#p-aela">AELA</a><a href="#p-klaster">Klášterní areál Ostrov</a><a href="#p-reel">Reel o Suno</a><a href="#p-willy">Willy</a><a href="#p-coach">Coach</a></nav>
 
   <section class="project" aria-labelledby="p-bigday">
     <div class="phead">
@@ -255,6 +258,33 @@ html{scroll-behavior:smooth}
     </div>
     <figure class="frame"><div class="win"><div class="win-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="addr">klasterniareal-ostrov.cz</span></div><a href="img/klaster-uvod.jpg" target="_blank" rel="noopener"><img src="img/klaster-uvod.jpg" alt="Úvodní stránka webu Klášterního areálu Ostrov" width="1280" height="800" loading="lazy"></a></div><figcaption>Úvodní stránka</figcaption></figure>
     <div class="pair"><figure class="frame"><div class="win"><div class="win-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="addr">klasterniareal-ostrov.cz/osobnosti</span></div><a href="img/klaster-osobnosti.jpg" target="_blank" rel="noopener"><img src="img/klaster-osobnosti.jpg" alt="Přehled osobností areálu s portréty" width="1280" height="800" loading="lazy"></a></div><figcaption>Osobnosti areálu</figcaption></figure><figure class="frame"><div class="win"><div class="win-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="addr">klasterniareal-ostrov.cz/osobnost-sibylla-augusta</span></div><a href="img/klaster-profil.jpg" target="_blank" rel="noopener"><img src="img/klaster-profil.jpg" alt="Profil Franzisky Sibylly Augusty Bádenské s portrétem" width="1280" height="800" loading="lazy"></a></div><figcaption>Profil osobnosti s portrétem vytvořeným s AI</figcaption></figure></div>
+  </section>
+
+  <hr>
+
+  <section class="project" aria-labelledby="p-reel">
+    <div class="phead">
+      <h2 id="p-reel">Reel o Suno</h2>
+      <span class="badge done">Dokončeno</span>
+      <span class="kind">video na sociální sítě</span>
+    </div>
+    <div class="coach-demo">
+      <div class="coach-side">
+        <p>Krátké video o tom, jak z obyčejného broukání udělat s AI celou píseň. Zajímavější než samotné téma je ale způsob, jakým video vzniklo.</p>
+        <p>Střih jsem nedělal ručně. Úpravy jsem zadával ChatGPT a Claudovi a ty je samy provedly přímo v After Effects a DaVinci Resolve: střih, titulky, grafiku i efekty. Moje práce byla říct, co má video dělat, a hlídat výsledek.</p>
+        <div class="built">
+          <h3>Co jsem udělal</h3>
+          <ul>
+            <li>Námět, natáčení a vystoupení před kamerou</li>
+            <li>Celý střih řízený zadáními pro ChatGPT a Clauda</li>
+            <li>Pozadí místnosti vygenerované AI a zapojené do záběrů</li>
+            <li>Píseň vytvořenou v Suno z vlastního broukání</li>
+          </ul>
+          <p class="stack">After Effects · DaVinci Resolve · ChatGPT · Claude · Suno</p>
+        </div>
+      </div>
+      <div class="phone phone-live phone-video"><div class="screen"><video src="media/reel-suno.mp4" poster="img/reel-suno-poster.jpg" controls playsinline preload="none" aria-label="Reel o Suno, 1 minuta 45 sekund"></video></div></div>
+    </div>
   </section>
 
   <hr>
