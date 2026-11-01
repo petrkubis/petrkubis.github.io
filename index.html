@@ -77,6 +77,51 @@ footer p{margin:0;max-width:70ch}
   .phones.four{grid-template-columns:repeat(4,160px)}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+:root{--chrome:#ECEFF3;--dot:#C6CBD3;--bezel:#15171B}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--chrome:#22252B;--dot:#3B404A}}
+:root[data-theme="dark"]{--chrome:#22252B;--dot:#3B404A}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.project{scroll-margin-top:24px}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:-40px}
+.toc a{padding:6px 14px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--fg);font-size:14px}
+.toc a:hover,.toc a:focus-visible{border-color:var(--accent);color:var(--accent)}
+.frame{margin:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+.frame figcaption{font-size:14px;color:var(--muted)}
+.win{border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--surface);box-shadow:0 1px 2px rgba(16,24,40,.05),0 14px 34px -14px rgba(16,24,40,.22)}
+.win-bar{display:flex;align-items:center;gap:12px;height:34px;padding:0 14px;background:var(--chrome);border-bottom:1px solid var(--line)}
+.dots{display:flex;gap:6px;flex-shrink:0}.dots i{width:10px;height:10px;border-radius:50%;background:var(--dot)}
+.addr{flex:1;min-width:0;max-width:380px;margin:0 auto;height:22px;border-radius:6px;background:var(--bg);color:var(--muted);font:12px/22px var(--mono);text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:0 10px}
+.win-title{flex:1;min-width:0;text-align:center;font-size:12.5px;font-weight:500;color:var(--muted);padding-right:46px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.win a,.win img{display:block}
+.win img{width:100%;height:auto;border:0;border-radius:0}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.mac-wrap{max-width:900px}
+.phone{position:relative;width:100%;aspect-ratio:9/19.5;border-radius:15%/7%;padding:3.4%;background:var(--bezel);box-shadow:inset 0 0 0 1.5px #34373f,0 18px 40px -16px rgba(16,24,40,.38)}
+.phone .screen{position:relative;width:100%;height:100%;border-radius:11.5%/5.3%;overflow:hidden;background:#fff}
+.phone .screen img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;border:0;border-radius:0}
+.phone .island{position:absolute;top:3.1%;left:50%;transform:translateX(-50%);width:28%;height:2.9%;border-radius:999px;background:#000;z-index:3;pointer-events:none}
+.phone-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px;overflow-x:auto;padding:6px 2px 10px}
+.phone-row figure{margin:0;display:flex;flex-direction:column;gap:10px;align-items:center}
+.phone-row figcaption{font-size:13px;color:var(--muted)}
+.coach-demo{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px 56px;align-items:center}
+.coach-side{display:flex;flex-direction:column;gap:18px;min-width:0}
+.coach-side p{margin:0;max-width:52ch;text-wrap:pretty}
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.tabs button{font:inherit;font-size:14px;font-weight:500;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.phone-live{width:320px;max-width:100%}
+.phone-live iframe{position:absolute;top:0;left:0;width:390px;height:844px;border:0;transform-origin:0 0;background:#f9f9f9}
+.hint{font-size:14px;color:var(--muted)}
+@media (max-width:760px){
+  .pair{grid-template-columns:minmax(0,1fr)}
+  .phone-row{grid-template-columns:repeat(5,150px)}
+  .coach-demo{grid-template-columns:minmax(0,1fr);justify-items:center}
+  .coach-side{justify-self:stretch}
+  .toc{margin-top:-24px}
+}
 </style>
 <style>img{max-width:100%}</style>
 </head>
@@ -95,6 +140,8 @@ footer p{margin:0;max-width:70ch}
       <span>Sokolov · práce na dálku i osobně</span>
     </div>
   </header>
+
+  <nav class="toc" aria-label="Projekty"><a href="#p-bigday">Big Day</a><a href="#p-rescue">iPhone Rescue</a><a href="#p-aela">AELA</a><a href="#p-klaster">Klášterní areál Ostrov</a><a href="#p-willy">Willy</a><a href="#p-coach">Coach</a></nav>
 
   <section class="project" aria-labelledby="p-bigday">
     <div class="phead">
@@ -119,17 +166,8 @@ footer p{margin:0;max-width:70ch}
         <p class="stack">Next.js 16 · React 19 · TypeScript · PostgreSQL · Drizzle · PWA · Ollama / OpenAI API</p>
       </div>
     </div>
-    <figure class="shot">
-      <img src="img/bigday-landing.jpg" alt="Úvodní stránka Big Day s nadpisem Vaše svatba, jedno místo a telefonem s aplikací" width="1440" height="840" loading="eager">
-      <figcaption>Úvodní stránka produktu</figcaption>
-    </figure>
-    <div class="phones" role="list" aria-label="Obrazovky aplikace Big Day">
-      <figure role="listitem"><img src="img/bigday-01-prehled.jpg" alt="Přehled s odpočtem dní do svatby a úkoly" width="440" height="956" loading="lazy"><figcaption>Přehled</figcaption></figure>
-      <figure role="listitem"><img src="img/bigday-02-zivy-den.jpg" alt="Živý režim svatebního dne s aktuálním bodem programu" width="440" height="956" loading="lazy"><figcaption>Živý den</figcaption></figure>
-      <figure role="listitem"><img src="img/bigday-03-hoste.jpg" alt="Seznam hostů s potvrzením účasti" width="440" height="956" loading="lazy"><figcaption>Hosté</figcaption></figure>
-      <figure role="listitem"><img src="img/bigday-04-harmonogram.jpg" alt="Harmonogram dne s časy a místy" width="440" height="956" loading="lazy"><figcaption>Harmonogram</figcaption></figure>
-      <figure role="listitem"><img src="img/bigday-05-rozpocet.jpg" alt="Rozpočet svatby s objednanými a zaplacenými položkami" width="440" height="956" loading="lazy"><figcaption>Rozpočet</figcaption></figure>
-    </div>
+    <figure class="frame"><div class="win"><div class="win-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="addr">Big Day · úvodní stránka</span></div><a href="img/bigday-landing.jpg" target="_blank" rel="noopener"><img src="img/bigday-landing.jpg" alt="Úvodní stránka Big Day s nadpisem Vaše svatba, jedno místo" width="1280" height="755" loading="eager"></a></div><figcaption>Úvodní stránka produktu</figcaption></figure>
+    <div class="phone-row" role="list" aria-label="Obrazovky aplikace Big Day"><figure role="listitem"><div class="phone"><div class="screen"><img src="img/bigday-01-prehled.jpg" alt="Přehled s odpočtem dní do svatby a úkoly" width="440" height="956" loading="lazy"></div></div><figcaption>Přehled</figcaption></figure><figure role="listitem"><div class="phone"><div class="screen"><img src="img/bigday-02-zivy-den.jpg" alt="Živý režim svatebního dne s aktuálním bodem programu" width="440" height="956" loading="lazy"></div></div><figcaption>Živý den</figcaption></figure><figure role="listitem"><div class="phone"><div class="screen"><img src="img/bigday-03-hoste.jpg" alt="Seznam hostů s potvrzením účasti" width="440" height="956" loading="lazy"></div></div><figcaption>Hosté</figcaption></figure><figure role="listitem"><div class="phone"><div class="screen"><img src="img/bigday-04-harmonogram.jpg" alt="Harmonogram dne s časy a místy" width="440" height="956" loading="lazy"></div></div><figcaption>Harmonogram</figcaption></figure><figure role="listitem"><div class="phone"><div class="screen"><img src="img/bigday-05-rozpocet.jpg" alt="Rozpočet svatby s objednanými a zaplacenými položkami" width="440" height="956" loading="lazy"></div></div><figcaption>Rozpočet</figcaption></figure></div>
   </section>
 
   <hr>
@@ -157,10 +195,7 @@ footer p{margin:0;max-width:70ch}
         <p class="stack">Swift 6 · SwiftUI · macOS 14+ · bez externích knihoven</p>
       </div>
     </div>
-    <figure class="shot">
-      <img src="img/rescue-overview.jpg" alt="Přehled aplikace iPhone Rescue s připojeným iPhonem 14 Pro a mřížkou nástrojů" width="1440" height="1024" loading="lazy">
-      <figcaption>Přehled s ukázkovými daty, žádný skutečný telefon není připojený</figcaption>
-    </figure>
+    <figure class="frame"><div class="win"><div class="win-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="win-title">iPhone Rescue</span></div><a href="img/rescue-overview.jpg" target="_blank" rel="noopener"><img src="img/rescue-overview.jpg" alt="Přehled aplikace iPhone Rescue s připojeným iPhonem 14 Pro a mřížkou nástrojů" width="1440" height="1024" loading="lazy"></a></div><figcaption>Přehled s ukázkovými daty, žádný skutečný telefon není připojený</figcaption></figure>
   </section>
 
   <hr>
@@ -187,10 +222,8 @@ footer p{margin:0;max-width:70ch}
         <p class="stack">HTML · CSS · JavaScript · Cloudflare</p>
       </div>
     </div>
-    <figure class="shot">
-      <img src="img/aela-hero.jpg" alt="Úvodní stránka webu AELA s nadpisem Vaše cesta do budoucnosti začíná s námi" width="1440" height="900" loading="lazy">
-      <figcaption>Úvodní stránka</figcaption>
-    </figure>
+    <figure class="frame"><div class="win"><div class="win-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="addr">aela.cz</span></div><a href="img/aela-hero.jpg" target="_blank" rel="noopener"><img src="img/aela-hero.jpg" alt="Úvodní stránka webu AELA" width="1280" height="800" loading="lazy"></a></div><figcaption>Úvodní stránka</figcaption></figure>
+    <div class="pair"><figure class="frame"><div class="win"><div class="win-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="addr">aela.cz/#sluzby</span></div><a href="img/aela-sluzby.jpg" target="_blank" rel="noopener"><img src="img/aela-sluzby.jpg" alt="Přehled služeb na webu AELA" width="1280" height="800" loading="lazy"></a></div><figcaption>Služby</figcaption></figure><figure class="frame"><div class="win"><div class="win-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="addr">aela.cz/#cena</span></div><a href="img/aela-kalkulacka.jpg" target="_blank" rel="noopener"><img src="img/aela-kalkulacka.jpg" alt="Kalkulačka orientační ceny na webu AELA" width="1280" height="800" loading="lazy"></a></div><figcaption>Kalkulačka ceny podle rozsahu</figcaption></figure></div>
   </section>
 
   <hr>
@@ -220,10 +253,8 @@ footer p{margin:0;max-width:70ch}
         <p class="stack">HTML · CSS · JavaScript · PHP · Cloudflare Stream</p>
       </div>
     </div>
-    <figure class="shot">
-      <img src="img/klaster-hero.jpg" alt="Úvodní stránka webu Klášterního areálu Ostrov s nadpisem Barokní klenot, v srdci Ostrova" width="1440" height="900" loading="lazy">
-      <figcaption>Úvodní stránka</figcaption>
-    </figure>
+    <figure class="frame"><div class="win"><div class="win-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="addr">klasterniareal-ostrov.cz</span></div><a href="img/klaster-uvod.jpg" target="_blank" rel="noopener"><img src="img/klaster-uvod.jpg" alt="Úvodní stránka webu Klášterního areálu Ostrov" width="1280" height="800" loading="lazy"></a></div><figcaption>Úvodní stránka</figcaption></figure>
+    <div class="pair"><figure class="frame"><div class="win"><div class="win-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="addr">klasterniareal-ostrov.cz/osobnosti</span></div><a href="img/klaster-osobnosti.jpg" target="_blank" rel="noopener"><img src="img/klaster-osobnosti.jpg" alt="Přehled osobností areálu s portréty" width="1280" height="800" loading="lazy"></a></div><figcaption>Osobnosti areálu</figcaption></figure><figure class="frame"><div class="win"><div class="win-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="addr">klasterniareal-ostrov.cz/osobnost-sibylla-augusta</span></div><a href="img/klaster-profil.jpg" target="_blank" rel="noopener"><img src="img/klaster-profil.jpg" alt="Profil Franzisky Sibylly Augusty Bádenské s portrétem" width="1280" height="800" loading="lazy"></a></div><figcaption>Profil osobnosti s portrétem vytvořeným s AI</figcaption></figure></div>
   </section>
 
   <hr>
@@ -251,10 +282,7 @@ footer p{margin:0;max-width:70ch}
         <p class="stack">Swift · SwiftUI · llama.cpp · lokální AI · ECDSA / AES-GCM</p>
       </div>
     </div>
-    <figure class="shot wide">
-      <img src="img/willy-overview.jpg" alt="Přehled aplikace Willy s výkonem, pamětí a volným místem na disku" width="1100" height="952" loading="lazy">
-      <figcaption>Návrh přehledu stavu Macu s testovacími hodnotami</figcaption>
-    </figure>
+    <figure class="frame mac-wrap"><div class="win"><div class="win-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="win-title">Willy</span></div><a href="img/willy-overview.jpg" target="_blank" rel="noopener"><img src="img/willy-overview.jpg" alt="Přehled aplikace Willy s výkonem, pamětí a volným místem na disku" width="1100" height="952" loading="lazy"></a></div><figcaption>Návrh přehledu stavu Macu s testovacími hodnotami</figcaption></figure>
   </section>
 
   <hr>
@@ -265,25 +293,27 @@ footer p{margin:0;max-width:70ch}
       <span class="badge dev">Na začátku vývoje · prototyp</span>
       <span class="kind">mobilní aplikace</span>
     </div>
-    <div class="cols">
-      <div class="lead">
+    <div class="coach-demo">
+      <div class="coach-side">
         <p>Zatím první návrh a prototyp. Tréninková aplikace, která má držet motivaci pomocí cílů, výzev s přáteli a týdenního žebříčku. Odhaduje, kdy uživatel dosáhne svého cíle a s jakou pravděpodobností.</p>
-        <a class="cta" href="coach/prototyp-dnes_11.html" target="_blank" rel="noopener">Proklikat prototyp</a>
+        <div class="tabs" role="tablist" aria-label="Obrazovky prototypu">
+          <button type="button" role="tab" id="ct-dnes" aria-selected="true" aria-controls="coach-frame" data-src="coach/prototyp-dnes_11.html">Dnes</button>
+          <button type="button" role="tab" id="ct-vyzvy" aria-selected="false" aria-controls="coach-frame" data-src="coach/vyzvy.html">Výzvy</button>
+          <button type="button" role="tab" id="ct-komunita" aria-selected="false" aria-controls="coach-frame" data-src="coach/komunita.html">Komunita</button>
+          <button type="button" role="tab" id="ct-profil" aria-selected="false" aria-controls="coach-frame" data-src="coach/profil.html">Profil</button>
+        </div>
+        <p class="hint">Prototyp v telefonu je živý: dá se v něm scrollovat, odškrtávat úkoly a přepínat obrazovky spodní lištou.</p>
+        <a class="cta" href="coach/prototyp-dnes_11.html" target="_blank" rel="noopener">Otevřít na celou obrazovku</a>
+        <div class="built">
+          <h3>Co jsem postavil</h3>
+          <ul>
+            <li>Návrh rozhraní a proklikatelný prototyp čtyř hlavních obrazovek</li>
+            <li>Interakce: plnění úkolů, detail tréninku, přepínání sekcí</li>
+          </ul>
+          <p class="stack">HTML · Tailwind CSS · JavaScript</p>
+        </div>
       </div>
-      <div class="built">
-        <h3>Co jsem postavil</h3>
-        <ul>
-          <li>Návrh rozhraní a proklikatelný prototyp čtyř hlavních obrazovek</li>
-          <li>Interakce: plnění úkolů, detail tréninku, přepínání sekcí</li>
-        </ul>
-        <p class="stack">HTML · Tailwind CSS · JavaScript</p>
-      </div>
-    </div>
-    <div class="phones four" role="list" aria-label="Obrazovky aplikace Coach">
-      <figure role="listitem"><a href="coach/prototyp-dnes_11.html" target="_blank" rel="noopener"><img src="img/coach-prototyp-dnes_11.jpg" alt="Obrazovka Dnes s cílem běhu na 5 km" width="440" height="952" loading="lazy"></a><figcaption>Dnes</figcaption></figure>
-      <figure role="listitem"><a href="coach/vyzvy.html" target="_blank" rel="noopener"><img src="img/coach-vyzvy.jpg" alt="Obrazovka Výzvy s týdenní výzvou" width="440" height="952" loading="lazy"></a><figcaption>Výzvy</figcaption></figure>
-      <figure role="listitem"><a href="coach/komunita.html" target="_blank" rel="noopener"><img src="img/coach-komunita.jpg" alt="Obrazovka Komunita s týdenním žebříčkem" width="440" height="952" loading="lazy"></a><figcaption>Komunita</figcaption></figure>
-      <figure role="listitem"><a href="coach/profil.html" target="_blank" rel="noopener"><img src="img/coach-profil.jpg" alt="Obrazovka Můj profil se statistikami" width="440" height="952" loading="lazy"></a><figcaption>Profil</figcaption></figure>
+      <div class="phone phone-live"><span class="island" aria-hidden="true"></span><div class="screen" id="coach-screen"><iframe id="coach-frame" src="coach/prototyp-dnes_11.html" title="Živý prototyp aplikace Coach" loading="lazy"></iframe></div></div>
     </div>
   </section>
 
@@ -295,5 +325,18 @@ footer p{margin:0;max-width:70ch}
   </footer>
 </div>
 
+
+<script>
+(function(){
+  var scr=document.getElementById('coach-screen'),fr=document.getElementById('coach-frame');
+  if(!scr||!fr)return;
+  function fit(){var w=scr.clientWidth,h=scr.clientHeight,k=w/390;fr.style.height=(h/k)+'px';fr.style.transform='scale('+k+')';}
+  fit(); if(window.ResizeObserver)new ResizeObserver(fit).observe(scr); else window.addEventListener('resize',fit);
+  var tabs=[].slice.call(document.querySelectorAll('.tabs [role=tab]'));
+  function mark(file){tabs.forEach(function(t){t.setAttribute('aria-selected',t.getAttribute('data-src').split('/').pop()===file?'true':'false')})}
+  tabs.forEach(function(t){t.addEventListener('click',function(){fr.src=t.getAttribute('data-src');mark(t.getAttribute('data-src').split('/').pop())})});
+  fr.addEventListener('load',function(){try{mark(fr.contentWindow.location.pathname.split('/').pop())}catch(e){}});
+})();
+</script>
 </body>
 </html>

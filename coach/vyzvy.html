@@ -630,5 +630,9 @@ try {
 
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeWizard(); });
 </script>
+<script>
+/* portfolio: spodní navigace prototypu přepíná mezi obrazovkami */
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.nav-item');if(!b)return;var m={'Domů':'prototyp-dnes_11.html','Komunita':'komunita.html','Výzvy':'vyzvy.html','Můj profil':'profil.html'};var t=m[b.getAttribute('data-tab')];if(t&&location.pathname.split('/').pop()!==t){setTimeout(function(){location.href=t},180)}});
+</script>
 </body>
 </html>
