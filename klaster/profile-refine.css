@@ -1,0 +1,152 @@
+/* profile-refine.css — encyklopedický („Wikipedia") vzhled podstránek osobností.
+   Ploché, textové, BEZ bento karet, stínů a hoveru. Cílí na třídy, které přiřadí
+   profile-icons.js (pf-detail / pf-links / pf-gallery), takže funguje nezávisle
+   na pořadí sekcí. Načítá se AŽ ZA profile-editorial.css. Hlavní stránky nemění. */
+
+/* ============================================================
+   MENŠÍ SVISLÉ MEZERY — méně prázdného místa mezi sekcemi
+   ============================================================ */
+main > section:first-child { padding-top: 8.5rem !important; padding-bottom: 2.5rem !important; }
+main section.pf-detail  { padding-top: 2.25rem !important; padding-bottom: 2.75rem !important; }
+main section.pf-links   { padding-top: 2.75rem !important; padding-bottom: 2.75rem !important; }
+main section.pf-gallery { padding-top: 2.75rem !important; padding-bottom: 2.75rem !important; }
+/* Spodní výzva (poslední sekce) — barevně oddělený pruh, nezávisle na pořadí */
+main > section:last-child {
+  padding-top: 3.25rem !important;
+  padding-bottom: 3.75rem !important;
+  background: #1a2a44 !important;      /* presidential-blue */
+  border-top: 3px solid #d8b14b;       /* zlatá linka */
+}
+main > section:last-child h2 { color: #ffffff !important; }
+main > section:last-child p { color: rgba(255, 255, 255, .82) !important; }
+/* první tlačítko zůstává zlaté; druhé (obrysové) zesvětlíme na tmavém pozadí */
+main > section:last-child .flex a:last-child {
+  border-color: rgba(255, 255, 255, .5) !important;
+  color: #ffffff !important;
+  background: transparent !important;
+}
+main > section:last-child .flex a:last-child:hover {
+  border-color: #d8b14b !important;
+  color: #d8b14b !important;
+}
+/* kratší odsazení nadpisů sekcí */
+main section.pf-links > div > div:first-child,
+main section.pf-gallery > div > div:first-child { margin-bottom: 1.25rem !important; padding-bottom: 1rem !important; }
+main section.pf-detail > div { row-gap: 1.5rem !important; }
+
+/* ============================================================
+   KLÍČOVÁ FAKTA — střídmý infobox (label + hodnota, jemné linky)
+   ============================================================ */
+main section.pf-detail dl { display: grid !important; gap: 0 !important; }
+main section.pf-detail dl > div {
+  display: grid !important;
+  grid-template-columns: 1.7rem 1fr auto !important;
+  align-items: center !important;
+  column-gap: .7rem !important;
+  padding: .7rem 0 !important;
+  border-bottom: 1px solid rgba(26, 42, 68, .1) !important;
+}
+main section.pf-detail dl > div:last-child { border-bottom: 0 !important; }
+main section.pf-detail dl .fact-ico-sm {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 1.7rem; color: #b48a25;
+}
+main section.pf-detail dl .fact-ico-sm .material-symbols-outlined { font-size: 1.15rem; }
+main section.pf-detail dl dt { grid-column: 2 !important; }
+main section.pf-detail dl dd { grid-column: 3 !important; text-align: right !important; max-width: 15rem; }
+
+/* ============================================================
+   SOUVISLOSTI — plynulé textové bloky (žádné karty)
+   site-compat.js mřížku zabalí do .mobile-card-rail-shell;
+   my ji zplošťujeme na stohované sekce oddělené jemnou linkou.
+   ============================================================ */
+main section.pf-links .mobile-card-rail-shell { display: contents !important; }
+main section.pf-links .mobile-card-rail {
+  display: block !important;
+  grid-template-columns: none !important;
+  width: auto !important;
+  max-width: 840px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  scroll-snap-type: none !important;
+}
+main section.pf-links .mobile-card-rail-shell::before,
+main section.pf-links .mobile-card-rail-shell::after { display: none !important; }
+
+main section.pf-links article {
+  display: block !important;
+  grid-template-columns: none !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(26, 42, 68, .14) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 1.75rem 0 !important;
+  width: auto !important;
+  max-width: none !important;
+}
+main section.pf-links article:first-child { border-top: 0 !important; padding-top: .25rem !important; }
+main section.pf-links article:hover { transform: none !important; box-shadow: none !important; }
+
+/* Piktogram: decentní zlatá ikona, ne kolečko */
+main section.pf-links article .fact-ico {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: auto; height: auto; margin: 0 0 .5rem;
+  background: transparent; border-radius: 0; color: #b48a25;
+}
+main section.pf-links article .fact-ico .material-symbols-outlined { font-size: 1.55rem; }
+main section.pf-links article > span {
+  display: block !important; color: #b48a25 !important; margin-bottom: .35rem !important;
+}
+main section.pf-links article > h3,
+main section.pf-links article > blockquote {
+  font-size: 1.35rem !important; line-height: 1.3 !important; margin-bottom: .6rem !important;
+}
+main section.pf-links article > p {
+  font-size: 1.02rem !important; line-height: 1.85 !important; max-width: 72ch;
+}
+
+/* ============================================================
+   GALERIE — ploché náhledy s tenkým rámečkem a popiskem
+   ============================================================ */
+main section.pf-gallery .mobile-card-rail-shell { display: contents !important; }
+main section.pf-gallery .mobile-card-rail {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-auto-flow: row !important;
+  gap: 1.25rem !important;
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  scroll-snap-type: none !important;
+}
+main section.pf-gallery .mobile-card-rail-shell::before,
+main section.pf-gallery .mobile-card-rail-shell::after { display: none !important; }
+main section.pf-gallery article {
+  display: block !important;
+  grid-template-columns: none !important;
+  padding: 0 !important;
+  border: 1px solid rgba(26, 42, 68, .16) !important;
+  border-radius: 2px !important;
+  overflow: hidden !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  width: auto !important;
+  max-width: none !important;
+}
+main section.pf-gallery article:hover { transform: none !important; box-shadow: none !important; }
+main section.pf-gallery article > div:first-child { border: 0 !important; }
+main section.pf-gallery article > div:last-child {
+  padding: .6rem .8rem !important; border: 0 !important;
+}
+main section.pf-gallery article > div:last-child span { font-size: .85rem !important; color: #555 !important; }
+
+/* ---------- Responsivita ---------- */
+@media (max-width: 767px) {
+  main section.pf-gallery .mobile-card-rail { grid-template-columns: 1fr 1fr !important; }
+  main section.pf-links article > p { font-size: .98rem !important; }
+  main section.pf-detail dl dd { max-width: 11rem; font-size: .85rem !important; }
+}

@@ -1,0 +1,148 @@
+{
+  "hours": [
+    {
+      "label": "Květen–Září · Út–Pá",
+      "time": "10:00 – 17:00"
+    },
+    {
+      "label": "Květen–Září · So–Ne",
+      "time": "10:00 – 18:00"
+    },
+    {
+      "label": "Říjen–Prosinec · St–Ne",
+      "time": "12:00 – 18:00"
+    },
+    {
+      "label": "Leden · Pá–Ne",
+      "time": "12:00 – 17:00"
+    },
+    {
+      "label": "Duben · St–Ne",
+      "time": "12:00 – 17:00"
+    },
+    {
+      "label": "Únor–Březen & pondělí",
+      "time": "Zavřeno"
+    }
+  ],
+  "prices": [
+    {
+      "title": "Samostatná prohlídka",
+      "subtitle": "S tištěným průvodcem · vlastním tempem",
+      "price": "120 Kč"
+    },
+    {
+      "title": "Komentovaná prohlídka",
+      "subtitle": "Út–Pá 10:00 a 14:00 · So–Ne 10:00, 13:00 a 15:00",
+      "price": "180 Kč"
+    },
+    {
+      "title": "Snížené",
+      "subtitle": "Senioři 65+, studenti, ZTP, děti od 6 let",
+      "price": "60–90 Kč"
+    },
+    {
+      "title": "Rodinné",
+      "subtitle": "2 dospělí + max. 3 děti · děti do 6 let zdarma",
+      "price": "od 290 Kč"
+    }
+  ],
+  "texts": {
+    "index_hero_title": "Barokní klenot, <br> v srdci Ostrova",
+    "index_hero_subtitle": "Čtyři barokní stavby, jeden příběh víry, zkázy a znovuzrození. Posvátný okrsek v Ostrově vznikal v letech 1644–1710 – a dnes v něm ožívá umění baroka i první interiérový 360° videomapping v Česku.",
+    "index_about_p1": "Klášterní areál v Ostrově, zvaný Posvátný okrsek, tvoří jedinečný soubor barokních staveb z let 1644–1710: pohřební kaple sv. Anny, piaristický klášter s kostelem Zvěstování Panny Marie, kaple sv. Floriána a kaple Panny Marie Einsiedelnské.",
+    "index_about_p2": "Areál, který nechali vybudovat vévodové sasko-lauenburští a markraběnka Sibylla Augusta Bádenská, prošel po desetiletích devastace velkolepou obnovou v letech 2001–2007. Dnes v něm objevíte stálé expozice Církevní umění západního Krušnohoří a Zničené kostely na Karlovarsku.",
+    "historie_hero_kicker": "Posvátný okrsek · 1644–2026",
+    "historie_hero_title": "Historie areálu",
+    "historie_hero_subtitle": "Příběh víry, vzdělanosti, zkázy a znovuzrození, který se píše už téměř čtyři staletí.",
+    "osobnosti_hero_kicker": "Čtyři staletí příběhů",
+    "osobnosti_hero_title": "Všechny osobnosti areálu",
+    "osobnosti_hero_subtitle": "Doložený přehled zakladatelů, šlechty, stavitelů, výtvarníků, studentů a umělců, jejichž život nebo dílo se dotkly klášterního areálu v Ostrově.",
+    "vystava_hero_kicker": "360° videomapping · Pohřební kaple sv. Anny",
+    "vystava_hero_title": "CARPE DIEM<br>MEMENTO MORI",
+    "vystava_hero_subtitle": "Užívej dne. Pamatuj na smrt. První interiérová 360° projekce v České republice.",
+    "aktuality_hero_kicker": "Aktuálně",
+    "aktuality_hero_title": "Dění v klášteře",
+    "aktuality_hero_subtitle": "Koncerty, slavnosti, projekce i komentované prohlídky – Posvátný okrsek žije po celý rok.",
+    "footer_address": "Klášterní 141/D, 363 01 Ostrov",
+    "footer_phone": "+420 728 801 124 · +420 725 729 554"
+  },
+  "images": {
+    "shared_logo": "logo1.png",
+    "index_about_photo": "o-nás1.jpg",
+    "shared_subpage_hero_bg": "https://lh3.googleusercontent.com/aida-public/AB6AXuBqXRDI4rKQVdjbG8m_py6XmH8qlKYrgcob8RcyhOdYe8VHDMEWc2FoPX4AmeNM7n6BVIdXtefZyYQEzCgXvFHxtWjUP2GHJyc_WBIHXXi8ABFvjwW36TG7Kq26rXvZ5kgRjvDm1cOl5XdP0N3fxQS1490Y9fMKDgfpqZMivjbpxxXD3rtXtNh1V1OzlNbBmfMXBMNq0r6MbcvvncixAKjAvuf3-4dJy1Nltvdz3IeQvtFsfY4AJqaV2i8GvA1NNmAeUE8UCpC213c",
+    "vystava_hero_bg": "https://static.goout.cloud/kdostrovcz/2026/03/1d609396-videomaping.jpg",
+    "index_carpediem_poster": "https://static.goout.cloud/kdostrovcz/2026/03/1d609396-videomaping.jpg",
+    "osobnosti_photo_anna_magdalena": "images/osobnosti/generated/anna-magdalena.jpg",
+    "osobnosti_photo_julius_jindrich": "images/osobnosti/generated/julius-jindrich.jpg",
+    "osobnosti_photo_sibylla_augusta": "images/osobnosti/generated/sibylla-augusta.jpg",
+    "osobnosti_photo_julius_frantisek": "images/osobnosti/generated/julius-frantisek.jpg",
+    "osobnosti_photo_fischer": "images/osobnosti/generated/fischer.jpg",
+    "osobnosti_photo_loschmidt": "images/osobnosti/generated/loschmidt.jpg",
+    "osobnosti_photo_zita_kabatova": "images/osobnosti/generated/zita-kabatova.jpg",
+    "osobnosti_photo_kryl": "images/osobnosti/generated/kryl.jpg"
+  },
+  "videos": {
+    "index_hero_video": "17.mp4",
+    "index_carpediem_video": "",
+    "index_faq_video": "video2.mp4"
+  },
+  "instagram": [],
+  "reviews": [
+    {
+      "id": "r1",
+      "initial": "M",
+      "author": "Návštěvník areálu",
+      "source": "Google recenze",
+      "text": "Obnova areálu je malý zázrak. Videomapping v kapli sv. Anny nám vyrazil dech – něco takového jsme v Česku ještě neviděli."
+    },
+    {
+      "id": "r2",
+      "initial": "J",
+      "author": "Návštěvnice areálu",
+      "source": "Google recenze",
+      "text": "Komentovaná prohlídka byla skvělá, průvodkyně vyprávěla s obrovským zápalem. Děti si užily i program pro rodiny."
+    },
+    {
+      "id": "r3",
+      "initial": "P",
+      "author": "Návštěvník areálu",
+      "source": "Google recenze",
+      "text": "Klidné místo s úžasnou atmosférou, ideální zastávka cestou do Karlových Varů. A vstupné víc než férové."
+    }
+  ],
+  "posts": [
+    {
+      "id": "komentovane-prohlidky",
+      "badge": "Celá sezóna 2026",
+      "title": "Komentované prohlídky Posvátného okrsku",
+      "text": "S průvodcem projdete všechny čtyři barokní stavby. Út–Pá v 10:00 a 14:00, o víkendech v 10:00, 13:00 a 15:00.",
+      "image": "https://www.pamatkyaprirodakarlovarska.cz/administrace/foto_objekty_prvni_foto/835_10_1424467138_316748_prvni.jpg",
+      "link": "index.html#tickets"
+    },
+    {
+      "id": "koncerty",
+      "badge": "Letní sezóna 2026",
+      "title": "Koncerty v klášterním kostele",
+      "text": "Kostel Zvěstování Panny Marie s vynikající akustikou hostí koncerty i výstavy. Aktuální program najdete v kalendáři akcí KKC Ostrov.",
+      "image": "https://static.goout.cloud/kdostrovcz/2022/06/e8eefe9f-kostel.png",
+      "link": "https://kkc-ostrov.cz/category/akce/"
+    },
+    {
+      "id": "slavnosti",
+      "badge": "Léto 2026",
+      "title": "Klášterní slavnosti s tradiční poutí",
+      "text": "Tradiční svátek celého areálu: pouť, hudba a program pro rodiny s dětmi v kulisách barokního okrsku.",
+      "image": "https://static.goout.cloud/kdostrovcz/2022/06/ee753e5d-mse.png",
+      "link": "https://kkc-ostrov.cz/category/akce/"
+    },
+    {
+      "id": "expozice",
+      "badge": "Stálé expozice",
+      "title": "Církevní umění a zničené kostely",
+      "text": "V klášterním kostele si prohlédnete expozice Církevní umění západního Krušnohoří a Zničené kostely na Karlovarsku, v Einsiedelnské kapli pak repliku ostrovské Černé madony.",
+      "image": "https://static.goout.cloud/kdostrovcz/2022/06/ab1ab6eb-madona.png",
+      "link": "vystava.html"
+    }
+  ]
+}

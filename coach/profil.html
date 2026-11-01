@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+<title>Můj profil — prototyp</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0&display=block" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.17?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+try {
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#c8f31d",
+          "primary-container": "#c8f31d",
+          "on-primary-container": "#000000",
+          "surface-bg": "#f7f7f5",
+          "card-bg": "#ffffff",
+          "text-primary": "#000000",
+          "text-secondary": "#666666",
+          "border-subtle": "#f0f0f0"
+        },
+        fontFamily: {
+          "sans": ["-apple-system", "BlinkMacSystemFont", "SF Pro Display", "SF Pro Text", "Helvetica Neue", "sans-serif"],
+          "stats": ["-apple-system", "BlinkMacSystemFont", "SF Pro Display", "SF Pro Text", "Helvetica Neue", "sans-serif"]
+        }
+      }
+    }
+  }
+} catch (_e) {}
+</script>
+<style>
+  .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: 300; font-style: normal; display: inline-block; line-height: 1;
+    letter-spacing: normal; text-transform: none; white-space: nowrap; word-wrap: normal;
+    direction: ltr; -webkit-font-smoothing: antialiased;
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.72);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(0, 0, 0, 0.045);
+    border-radius: 28px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.045), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  }
+
+  .liquid-btn {
+    background: rgba(0, 0, 0, 0.045);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: transform 0.15s ease, background 0.2s ease;
+  }
+  .liquid-btn:active { transform: scale(0.96); }
+
+  .ios-separator { height: 1px; background: rgba(0, 0, 0, 0.055); }
+  .hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+  /* ====== Plovoucí liquid glass pill navigace ====== */
+  .nav-pill-bar {
+    background: rgba(255, 255, 255, 0.55);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    backdrop-filter: blur(28px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 9999px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.10), 0 2px 8px rgba(0, 0, 0, 0.05),
+      inset 0 1px 1px rgba(255, 255, 255, 0.95), inset 0 -1px 2px rgba(0, 0, 0, 0.03);
+    margin-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .nav-item {
+    display: flex; align-items: center; justify-content: center;
+    flex: 1 1 0; min-width: 0; padding: 11px 8px;
+    border-radius: 9999px; color: #757575; background: transparent;
+    transition: background 0.45s cubic-bezier(0.32, 0.72, 0, 1), color 0.3s ease,
+                flex-grow 0.45s cubic-bezier(0.32, 0.72, 0, 1), padding 0.45s cubic-bezier(0.32, 0.72, 0, 1),
+                box-shadow 0.4s ease;
+  }
+  .nav-item:active { transform: scale(0.94); }
+  .nav-item .nav-icon { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .nav-item .nav-label {
+    max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap;
+    font-size: 13px; font-weight: 600; letter-spacing: -0.01em;
+    transition: max-width 0.45s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.3s ease, margin-left 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .nav-item.active {
+    flex-grow: 1.9; color: #000; background: #c8f31d;
+    box-shadow: 0 3px 14px rgba(200, 243, 29, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.7);
+  }
+  .nav-item.active .nav-label { max-width: 90px; opacity: 1; margin-left: 6px; }
+  .nav-item.active .nav-icon { transform: scale(1.05); }
+
+  /* ====== Odznaky ====== */
+  .badge-tile {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    padding: 14px 8px; border-radius: 20px;
+    background: rgba(0,0,0,0.03);
+    text-align: center;
+  }
+  .badge-tile.locked { opacity: 0.35; filter: grayscale(1); }
+  .badge-ic {
+    width: 44px; height: 44px; border-radius: 9999px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* Toggle přepínač (iOS styl) */
+  .ios-toggle {
+    width: 48px; height: 29px; border-radius: 9999px;
+    background: rgba(0,0,0,0.12); position: relative; cursor: pointer;
+    transition: background 0.3s ease; flex-shrink: 0;
+  }
+  .ios-toggle::after {
+    content: ''; position: absolute; top: 2px; left: 2px;
+    width: 25px; height: 25px; border-radius: 9999px; background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .ios-toggle.on { background: #c8f31d; }
+  .ios-toggle.on::after { transform: translateX(19px); }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .anim-in { opacity: 0; animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+  /* Bottom sheet + toast */
+  #sheet-backdrop {
+    position: fixed; inset: 0; z-index: 60;
+    background: rgba(0,0,0,0.25);
+    -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+    opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  }
+  #sheet-backdrop.open { opacity: 1; pointer-events: auto; }
+  #sheet {
+    position: fixed; bottom: 0; left: 50%; z-index: 70;
+    width: 100%; max-width: 28rem; transform: translate(-50%, 105%);
+    transition: transform 0.42s cubic-bezier(0.32, 0.72, 0, 1);
+    background: rgba(255,255,255,0.94);
+    -webkit-backdrop-filter: blur(32px) saturate(180%);
+    backdrop-filter: blur(32px) saturate(180%);
+    border-radius: 32px 32px 0 0;
+    border: 1px solid rgba(255,255,255,0.9); border-bottom: none;
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.12);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+    max-height: 86vh; overflow-y: auto;
+  }
+  #sheet.open { transform: translate(-50%, 0); }
+  #toast {
+    position: fixed; top: calc(env(safe-area-inset-top, 0px) + 16px); left: 50%;
+    transform: translate(-50%, -140%); z-index: 80;
+    background: rgba(255,255,255,0.9);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 9999px; box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    padding: 12px 20px; display: flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 500; color: #000;
+    transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1); white-space: nowrap;
+  }
+  #toast.show { transform: translate(-50%, 0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    .anim-in { opacity: 1; }
+  }
+</style>
+</head>
+<body class="text-text-primary min-h-screen flex justify-center selection:bg-primary-container selection:text-black font-sans font-light bg-surface-bg">
+<div class="w-full max-w-md min-h-screen relative flex flex-col">
+
+  <!-- Header -->
+  <header class="flex justify-between items-end px-6 pt-16 pb-6 relative z-10 anim-in">
+    <h1 class="text-[34px] font-semibold tracking-tight text-text-primary leading-tight">Můj profil</h1>
+    <button class="w-10 h-10 rounded-full liquid-btn flex items-center justify-center shrink-0" onclick="showToast('settings', 'Nastavení — mimo rozsah prototypu')">
+      <span class="material-symbols-outlined text-[20px]">settings</span>
+    </button>
+  </header>
+
+  <main class="flex-1 overflow-y-auto pb-[130px] space-y-9 relative z-10">
+
+    <!-- Profilová karta -->
+    <section class="px-6 anim-in" style="animation-delay:0.05s">
+      <div class="glass-card p-6">
+        <div class="flex items-center gap-4 mb-5">
+          <div class="relative shrink-0">
+            <div class="w-[76px] h-[76px] rounded-full flex items-center justify-center text-black font-semibold text-[28px] border-[3px] border-white shadow-md" style="background: linear-gradient(135deg,#c8f31d,#a8d908);">D</div>
+            <button class="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-black flex items-center justify-center border-2 border-white active:scale-90 transition-transform" onclick="showToast('photo_camera', 'Změna fotky — mimo rozsah prototypu')">
+              <span class="material-symbols-outlined text-[14px] text-white">photo_camera</span>
+            </button>
+          </div>
+          <div class="flex-1 min-w-0">
+            <h2 class="text-[22px] font-semibold tracking-tight leading-tight">Dudis</h2>
+            <p class="text-[13px] text-text-secondary mt-0.5">@dudis • Ostrov</p>
+            <div class="flex items-center gap-1.5 mt-2">
+              <span class="material-symbols-outlined text-[15px] text-primary" style="font-variation-settings:'FILL' 1;">local_fire_department</span>
+              <span class="text-[13px] font-semibold">9denní streak</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex text-center">
+          <div class="flex-1 cursor-pointer active:opacity-60 transition-opacity" onclick="showToast('group', 'Sledující — mimo rozsah prototypu')">
+            <p class="font-stats text-[22px] font-semibold tracking-tight leading-none">14</p>
+            <p class="text-[12px] text-text-secondary mt-1">Tréninků</p>
+          </div>
+          <div class="w-px bg-black/8"></div>
+          <div class="flex-1 cursor-pointer active:opacity-60 transition-opacity" onclick="showToast('group', 'Přátelé — mimo rozsah prototypu')">
+            <p class="font-stats text-[22px] font-semibold tracking-tight leading-none">23</p>
+            <p class="text-[12px] text-text-secondary mt-1">Přátel</p>
+          </div>
+          <div class="w-px bg-black/8"></div>
+          <div class="flex-1 cursor-pointer active:opacity-60 transition-opacity" onclick="showToast('emoji_events', 'Výhry — mimo rozsah prototypu')">
+            <p class="font-stats text-[22px] font-semibold tracking-tight leading-none">7</p>
+            <p class="text-[12px] text-text-secondary mt-1">Výher</p>
+          </div>
+        </div>
+
+        <button class="w-full mt-5 py-3 rounded-full text-[14px] font-semibold text-black bg-primary active:scale-[0.98] transition-transform" onclick="openEditSheet()">Upravit profil</button>
+      </div>
+    </section>
+
+    <!-- Statistiky měsíce -->
+    <section class="px-6 anim-in" style="animation-delay:0.11s">
+      <h3 class="text-[20px] font-semibold text-text-primary mb-4 tracking-tight">Červenec v číslech</h3>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="glass-card p-5">
+          <span class="material-symbols-outlined text-[22px] text-text-secondary mb-2">route</span>
+          <p class="font-stats text-[26px] font-semibold tracking-tight leading-none">42,6</p>
+          <p class="text-[12px] text-text-secondary mt-1">km celkem</p>
+        </div>
+        <div class="glass-card p-5">
+          <span class="material-symbols-outlined text-[22px] text-text-secondary mb-2">timer</span>
+          <p class="font-stats text-[26px] font-semibold tracking-tight leading-none">11 h 20 m</p>
+          <p class="text-[12px] text-text-secondary mt-1">aktivního času</p>
+        </div>
+        <div class="glass-card p-5">
+          <span class="material-symbols-outlined text-[22px] text-text-secondary mb-2">local_fire_department</span>
+          <p class="font-stats text-[26px] font-semibold tracking-tight leading-none">6 840</p>
+          <p class="text-[12px] text-text-secondary mt-1">kcal spáleno</p>
+        </div>
+        <div class="glass-card p-5">
+          <span class="material-symbols-outlined text-[22px] text-text-secondary mb-2">speed</span>
+          <p class="font-stats text-[26px] font-semibold tracking-tight leading-none">4:46</p>
+          <p class="text-[12px] text-text-secondary mt-1">nejlepší tempo /km</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Odznaky -->
+    <section class="px-6 anim-in" style="animation-delay:0.17s">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-[20px] font-semibold text-text-primary tracking-tight">Odznaky</h3>
+        <button class="text-[13px] font-medium text-text-secondary" onclick="showToast('military_tech', 'Všechny odznaky — mimo rozsah prototypu')">Zobrazit vše</button>
+      </div>
+      <div class="grid grid-cols-4 gap-2.5">
+        <div class="badge-tile">
+          <div class="badge-ic" style="background: linear-gradient(135deg,#c8f31d,#a8d908);"><span class="material-symbols-outlined text-[22px]" style="font-variation-settings:'FILL' 1;">local_fire_department</span></div>
+          <span class="text-[10px] font-medium leading-tight">Týdenní<br>streak</span>
+        </div>
+        <div class="badge-tile">
+          <div class="badge-ic" style="background: linear-gradient(135deg,#FF9A56,#FF6B95);"><span class="material-symbols-outlined text-[22px] text-white" style="font-variation-settings:'FILL' 1;">directions_run</span></div>
+          <span class="text-[10px] font-medium leading-tight">První<br>50 km</span>
+        </div>
+        <div class="badge-tile">
+          <div class="badge-ic" style="background: linear-gradient(135deg,#7F00FF,#E100FF);"><span class="material-symbols-outlined text-[22px] text-white" style="font-variation-settings:'FILL' 1;">emoji_events</span></div>
+          <span class="text-[10px] font-medium leading-tight">Vítěz<br>výzvy</span>
+        </div>
+        <div class="badge-tile locked">
+          <div class="badge-ic bg-black/15"><span class="material-symbols-outlined text-[22px]">lock</span></div>
+          <span class="text-[10px] font-medium leading-tight">100 km<br>měsíc</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Propojená zařízení -->
+    <section class="px-6 anim-in" style="animation-delay:0.23s">
+      <h3 class="text-[20px] font-semibold text-text-primary mb-4 tracking-tight">Zařízení &amp; zdraví</h3>
+      <div class="glass-card overflow-hidden">
+        <div class="p-4 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-black/5 flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[20px]">watch</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[14px] font-medium text-text-primary">Apple Watch</p>
+            <p class="text-[12px] text-text-secondary">Připojeno • naposledy synchronizováno před 12 min</p>
+          </div>
+          <span class="w-2 h-2 rounded-full bg-primary shrink-0"></span>
+        </div>
+        <div class="ios-separator ml-4"></div>
+        <div class="p-4 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-black/5 flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[20px]">ecg_heart</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[14px] font-medium text-text-primary">Apple Zdraví</p>
+            <p class="text-[12px] text-text-secondary">Sdílení spánku, HRV a tréninků</p>
+          </div>
+          <div class="ios-toggle on" onclick="toggleSwitch(this)"></div>
+        </div>
+        <div class="ios-separator ml-4"></div>
+        <div class="p-4 flex items-center gap-3 cursor-pointer active:bg-black/[0.03] transition-colors" onclick="showToast('add_circle', 'Přidání zařízení — mimo rozsah prototypu')">
+          <div class="w-10 h-10 rounded-2xl bg-black/5 flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[20px]">add</span>
+          </div>
+          <p class="text-[14px] font-medium text-text-primary flex-1">Přidat zařízení</p>
+          <span class="material-symbols-outlined text-gray-400 text-[20px]">chevron_right</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Nastavení -->
+    <section class="px-6 anim-in" style="animation-delay:0.29s">
+      <h3 class="text-[20px] font-semibold text-text-primary mb-4 tracking-tight">Předvolby</h3>
+      <div class="glass-card overflow-hidden">
+        <div class="p-4 flex items-center gap-3">
+          <span class="material-symbols-outlined text-[20px] text-text-secondary shrink-0">notifications</span>
+          <p class="text-[14px] font-medium text-text-primary flex-1">Notifikace výzev</p>
+          <div class="ios-toggle on" onclick="toggleSwitch(this)"></div>
+        </div>
+        <div class="ios-separator ml-4"></div>
+        <div class="p-4 flex items-center gap-3">
+          <span class="material-symbols-outlined text-[20px] text-text-secondary shrink-0">visibility</span>
+          <p class="text-[14px] font-medium text-text-primary flex-1">Veřejný profil</p>
+          <div class="ios-toggle" onclick="toggleSwitch(this)"></div>
+        </div>
+        <div class="ios-separator ml-4"></div>
+        <div class="p-4 flex items-center gap-3 cursor-pointer active:bg-black/[0.03] transition-colors" onclick="showToast('help', 'Nápověda — mimo rozsah prototypu')">
+          <span class="material-symbols-outlined text-[20px] text-text-secondary shrink-0">help</span>
+          <p class="text-[14px] font-medium text-text-primary flex-1">Nápověda a podpora</p>
+          <span class="material-symbols-outlined text-gray-400 text-[20px]">chevron_right</span>
+        </div>
+        <div class="ios-separator ml-4"></div>
+        <div class="p-4 flex items-center gap-3 cursor-pointer active:bg-black/[0.03] transition-colors" onclick="showToast('logout', 'Odhlášení — mimo rozsah prototypu')">
+          <span class="material-symbols-outlined text-[20px] text-red-500 shrink-0">logout</span>
+          <p class="text-[14px] font-medium text-red-500 flex-1">Odhlásit se</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Bottom NavBar -->
+  <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 nav-pill-bar" style="width: calc(100% - 40px); max-width: 400px;">
+    <div class="flex items-center justify-between gap-1 px-2 py-2">
+      <button class="nav-item" data-tab="Domů" onclick="window.location.href='prototyp-dnes.html'">
+        <span class="material-symbols-outlined nav-icon text-[22px]">home</span>
+        <span class="nav-label">Domů</span>
+      </button>
+      <button class="nav-item" data-tab="Komunita" onclick="window.location.href='komunita.html'">
+        <span class="material-symbols-outlined nav-icon text-[22px]">groups</span>
+        <span class="nav-label">Komunita</span>
+      </button>
+      <button class="nav-item" data-tab="Výzvy" onclick="window.location.href='vyzvy.html'">
+        <span class="material-symbols-outlined nav-icon text-[22px]">emoji_events</span>
+        <span class="nav-label">Výzvy</span>
+      </button>
+      <button class="nav-item active" data-tab="Můj profil">
+        <span class="material-symbols-outlined nav-icon text-[22px]" style="font-variation-settings: 'FILL' 1;">person</span>
+        <span class="nav-label">Profil</span>
+      </button>
+    </div>
+  </nav>
+</div>
+
+<!-- Bottom sheet: úprava profilu -->
+<div id="sheet-backdrop" onclick="closeSheet()"></div>
+<div id="sheet">
+  <div class="flex justify-center pt-3 pb-1">
+    <div class="w-10 h-1 rounded-full bg-black/15"></div>
+  </div>
+  <div class="px-6 pt-3">
+    <div class="flex items-start justify-between mb-5">
+      <h3 class="text-[22px] font-semibold tracking-tight">Upravit profil</h3>
+      <button class="w-7 h-7 rounded-full bg-black/5 flex items-center justify-center active:scale-90 transition-transform" onclick="closeSheet()">
+        <span class="material-symbols-outlined text-[16px] text-gray-500">close</span>
+      </button>
+    </div>
+
+    <div class="space-y-4 mb-6">
+      <div>
+        <label class="text-[13px] font-medium text-text-secondary block mb-1.5">Jméno</label>
+        <input type="text" value="Dudis" class="w-full px-4 py-3 rounded-2xl border-black/10 bg-black/[0.03] text-[15px] focus:border-primary focus:ring-primary" id="edit-name">
+      </div>
+      <div>
+        <label class="text-[13px] font-medium text-text-secondary block mb-1.5">Uživatelské jméno</label>
+        <input type="text" value="@dudis" class="w-full px-4 py-3 rounded-2xl border-black/10 bg-black/[0.03] text-[15px] focus:border-primary focus:ring-primary">
+      </div>
+      <div>
+        <label class="text-[13px] font-medium text-text-secondary block mb-1.5">Město</label>
+        <input type="text" value="Ostrov" class="w-full px-4 py-3 rounded-2xl border-black/10 bg-black/[0.03] text-[15px] focus:border-primary focus:ring-primary">
+      </div>
+      <div>
+        <label class="text-[13px] font-medium text-text-secondary block mb-1.5">Bio</label>
+        <textarea rows="2" class="w-full px-4 py-3 rounded-2xl border-black/10 bg-black/[0.03] text-[15px] focus:border-primary focus:ring-primary resize-none">Běhám, zvedám, občas plavu. Cíl: 5 km pod 23 minut.</textarea>
+      </div>
+    </div>
+
+    <button class="w-full py-3.5 rounded-full text-[15px] font-semibold text-black bg-primary active:scale-[0.98] transition-transform" onclick="saveProfile()">Uložit změny</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast">
+  <span class="material-symbols-outlined text-[18px]" id="toast-icon">info</span>
+  <span id="toast-text"></span>
+</div>
+
+<script>
+  // ===== Toast =====
+  let toastTimer = null;
+  function showToast(icon, text) {
+    const t = document.getElementById('toast');
+    document.getElementById('toast-icon').textContent = icon;
+    document.getElementById('toast-text').textContent = text;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2400);
+  }
+
+  // ===== iOS toggle =====
+  function toggleSwitch(el) {
+    el.classList.toggle('on');
+  }
+
+  // ===== Sheet: úprava profilu =====
+  function openEditSheet() {
+    document.getElementById('sheet-backdrop').classList.add('open');
+    document.getElementById('sheet').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSheet() {
+    document.getElementById('sheet-backdrop').classList.remove('open');
+    document.getElementById('sheet').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function saveProfile() {
+    closeSheet();
+    showToast('check_circle', 'Profil uložen');
+  }
+
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeSheet(); });
+</script>
+</body>
+</html>

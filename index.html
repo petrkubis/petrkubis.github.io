@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ukázky projektů Petra Kubise: aplikace, nástroje a weby postavené s pomocí AI.">
+<title>Petr Kubis – ukázky práce</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: jeden sloupec jako prodloužení životopisu; každý projekt = hlavička, text vlevo / co jsem postavil vpravo, pak obrazovky. */
+:root{
+  --bg:#ffffff; --surface:#F4F6F9; --fg:#17191E; --muted:#525866; --line:#DCDFE4;
+  --accent:#1F4E8C; --dev:#9A5B00; --dev-bg:#FFF3DF; --done:#1E6B45; --done-bg:#E3F3EA;
+  --sans:'IBM Plex Sans','Helvetica Neue',Arial,sans-serif;
+  --mono:'IBM Plex Mono',Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111317; --surface:#1A1D23; --fg:#ECEEF2; --muted:#A3A9B6; --line:#2C3039;
+  --accent:#8DB4EE; --dev:#F2B969; --dev-bg:#3A2A12; --done:#7FD3A6; --done-bg:#163225; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111317; --surface:#1A1D23; --fg:#ECEEF2; --muted:#A3A9B6; --line:#2C3039;
+  --accent:#8DB4EE; --dev:#F2B969; --dev-bg:#3A2A12; --done:#7FD3A6; --done-bg:#163225; color-scheme:dark}
+
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1080px;margin:0 auto;padding-block:56px 72px;display:flex;flex-direction:column;gap:72px}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+header.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px;padding-bottom:28px;border-bottom:1.5px solid var(--fg)}
+header.top h1{margin:0;font-size:clamp(34px,5vw,48px);line-height:1.05;font-weight:600;letter-spacing:-.015em}
+header.top .sub{margin:8px 0 0;font-size:18px;color:var(--muted);max-width:52ch;text-wrap:pretty}
+.contact{display:flex;flex-direction:column;align-items:flex-end;gap:2px;font-size:15px;color:var(--muted);user-select:text}
+.contact strong{color:var(--fg);font-weight:500}
+
+.project{display:flex;flex-direction:column;gap:28px}
+.phead{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 16px}
+.phead h2{margin:0;font-size:32px;line-height:1.15;font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.kind{font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:.02em}
+.badge{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500;padding:3px 11px;border-radius:999px;align-self:center}
+.badge::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.badge.dev{color:var(--dev);background:var(--dev-bg)}
+.badge.done{color:var(--done);background:var(--done-bg)}
+
+.cols{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px 56px}
+.cols p{margin:0;max-width:62ch;text-wrap:pretty}
+.cols .lead{display:flex;flex-direction:column;gap:14px}
+.built h3{margin:0 0 8px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.built ul{margin:0;padding:0 0 0 18px;display:flex;flex-direction:column;gap:6px}
+.built li{padding-left:2px}
+.stack{margin-top:14px;font-family:var(--mono);font-size:13px;color:var(--muted);line-height:1.7}
+
+.shot{margin:0;display:flex;flex-direction:column;gap:10px}
+.shot img{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--line);background:var(--surface)}
+.shot figcaption,.cap{font-size:14px;color:var(--muted)}
+.phones{display:grid;grid-template-columns:repeat(5,minmax(150px,1fr));gap:14px;overflow-x:auto;padding-bottom:6px}
+.phones.four{grid-template-columns:repeat(4,minmax(160px,1fr))}
+.phones figure{margin:0;display:flex;flex-direction:column;gap:8px}
+.phones img{display:block;width:100%;height:auto;border-radius:18px;border:1px solid var(--line);background:var(--surface)}
+.phones figcaption{font-size:13px;color:var(--muted)}
+.wide{max-width:900px}
+.cta{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;font-weight:500;padding:10px 18px;border-radius:999px;border:1.5px solid var(--accent);text-decoration:none}
+.cta:hover{background:var(--accent);color:var(--bg)}
+
+hr{border:0;border-top:1px solid var(--line);margin:0}
+footer{font-size:15px;color:var(--muted);display:flex;flex-direction:column;gap:6px}
+footer p{margin:0;max-width:70ch}
+
+@media (max-width:760px){
+  .wrap{padding-block:32px 48px;gap:56px}
+  .cols{grid-template-columns:minmax(0,1fr)}
+  .contact{align-items:flex-start}
+  .phead h2{font-size:26px}
+  .phones,.phones.four{grid-template-columns:repeat(5,150px)}
+  .phones.four{grid-template-columns:repeat(4,160px)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<style>img{max-width:100%}</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Petr Kubis</h1>
+      <p class="sub">Ukázky práce k životopisu. Aplikace, nástroje a weby, které stavím s pomocí AI. Všechno jsou zatím dema, u každého projektu je napsané, v jaké je fázi.</p>
+    </div>
+    <div class="contact">
+      <strong>+420 723 422 887</strong>
+      <span>petr.kubis28@gmail.com</span>
+      <span>Sokolov · práce na dálku i osobně</span>
+    </div>
+  </header>
+
+  <section class="project" aria-labelledby="p-bigday">
+    <div class="phead">
+      <h2 id="p-bigday">Big Day</h2>
+      <span class="badge dev">Ve fázi vývoje</span>
+      <span class="kind">webová a mobilní aplikace</span>
+    </div>
+    <div class="cols">
+      <div class="lead">
+        <p>Aplikace pro plánování svatby a řízení svatebního dne. Pár v ní spravuje hosty, rozpočet, dodavatele a harmonogram, hosté dostanou vlastní odkaz s pozvánkou a svatební tým svoje úkoly.</p>
+        <p>V den svatby aplikace sama ověřuje, jestli je všechno hotové. Když se něco zpozdí, přepočítá program a upozorní jen lidi, kterých se to týká. AI asistent odpovídá na dotazy nad daty svatby, například kolik hostů ještě neodpovědělo.</p>
+      </div>
+      <div class="built">
+        <h3>Co jsem postavil</h3>
+        <ul>
+          <li>Celý produkt od zadání po funkční verzi, včetně designu a ikon</li>
+          <li>AI asistenta, který umí běžet v cloudu i na lokálním modelu</li>
+          <li>Role a oprávnění: pár, koordinátorka, kuchyně, hosté</li>
+          <li>Živý režim svatebního dne s notifikacemi</li>
+          <li>Automatické testy a přípravu nasazení na server</li>
+        </ul>
+        <p class="stack">Next.js 16 · React 19 · TypeScript · PostgreSQL · Drizzle · PWA · Ollama / OpenAI API</p>
+      </div>
+    </div>
+    <figure class="shot">
+      <img src="img/bigday-landing.jpg" alt="Úvodní stránka Big Day s nadpisem Vaše svatba, jedno místo a telefonem s aplikací" width="1440" height="840" loading="eager">
+      <figcaption>Úvodní stránka produktu</figcaption>
+    </figure>
+    <div class="phones" role="list" aria-label="Obrazovky aplikace Big Day">
+      <figure role="listitem"><img src="img/bigday-01-prehled.jpg" alt="Přehled s odpočtem dní do svatby a úkoly" width="440" height="956" loading="lazy"><figcaption>Přehled</figcaption></figure>
+      <figure role="listitem"><img src="img/bigday-02-zivy-den.jpg" alt="Živý režim svatebního dne s aktuálním bodem programu" width="440" height="956" loading="lazy"><figcaption>Živý den</figcaption></figure>
+      <figure role="listitem"><img src="img/bigday-03-hoste.jpg" alt="Seznam hostů s potvrzením účasti" width="440" height="956" loading="lazy"><figcaption>Hosté</figcaption></figure>
+      <figure role="listitem"><img src="img/bigday-04-harmonogram.jpg" alt="Harmonogram dne s časy a místy" width="440" height="956" loading="lazy"><figcaption>Harmonogram</figcaption></figure>
+      <figure role="listitem"><img src="img/bigday-05-rozpocet.jpg" alt="Rozpočet svatby s objednanými a zaplacenými položkami" width="440" height="956" loading="lazy"><figcaption>Rozpočet</figcaption></figure>
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="project" aria-labelledby="p-rescue">
+    <div class="phead">
+      <h2 id="p-rescue">iPhone Rescue</h2>
+      <span class="badge dev">Ve fázi vývoje · verze 0.5</span>
+      <span class="kind">aplikace pro macOS</span>
+    </div>
+    <div class="cols">
+      <div class="lead">
+        <p>Dílna na diagnostiku a záchranu iPhonů v jedné aplikaci pro Mac, něco jako iFixit v softwaru. Po připojení telefonu přes USB přesně určí model a stav zařízení a provede uživatele kontrolou záloh, firmwaru a obnovením.</p>
+        <p>Všechno běží lokálně v Macu. Před každým krokem, který může smazat data, aplikace varuje a čeká na souhlas. Model nikdy neodhaduje, když ho nepozná, zobrazí pomlčku.</p>
+      </div>
+      <div class="built">
+        <h3>Co jsem postavil</h3>
+        <ul>
+          <li>Nativní aplikaci pro macOS s vlastním designem a ilustracemi</li>
+          <li>Rozpoznání modelu z offline katalogu podle identifikátoru zařízení</li>
+          <li>Kontrolu záloh, katalog firmwaru s ověřením souborů a analýzu logů</li>
+          <li>Soukromé diagnostické reporty bez osobních údajů</li>
+          <li>Plán dalších modulů: kontrola ojetého iPhonu, režim pro servis, AI diagnostika</li>
+        </ul>
+        <p class="stack">Swift 6 · SwiftUI · macOS 14+ · bez externích knihoven</p>
+      </div>
+    </div>
+    <figure class="shot">
+      <img src="img/rescue-overview.jpg" alt="Přehled aplikace iPhone Rescue s připojeným iPhonem 14 Pro a mřížkou nástrojů" width="1440" height="1024" loading="lazy">
+      <figcaption>Přehled s ukázkovými daty, žádný skutečný telefon není připojený</figcaption>
+    </figure>
+  </section>
+
+  <hr>
+
+  <section class="project" aria-labelledby="p-aela">
+    <div class="phead">
+      <h2 id="p-aela">AELA</h2>
+      <span class="badge dev">Demo</span>
+      <span class="kind">web</span>
+    </div>
+    <div class="cols">
+      <div class="lead">
+        <p>AELA měla být moje firma, kterou jsem chtěl postavit právě na zavádění AI do malých a středních firem. Tohle je její web: pět samostatných stránek služeb, od AI implementace přes weby a aplikace až po IT poradenství, kyberbezpečnost a ekosystém Apple.</p>
+        <p>Návštěvník si může sám spočítat orientační cenu a nechat si poradit s výběrem služby, aniž by musel hned volat.</p>
+      </div>
+      <div class="built">
+        <h3>Co jsem postavil</h3>
+        <ul>
+          <li>Design a strukturu celého webu</li>
+          <li>Kalkulačku ceny a průvodce výběrem služby</li>
+          <li>Video na úvodní stránce a animace</li>
+          <li>Ukázkové weby pro portfolio</li>
+        </ul>
+        <p class="stack">HTML · CSS · JavaScript · Cloudflare</p>
+      </div>
+    </div>
+    <figure class="shot">
+      <img src="img/aela-hero.jpg" alt="Úvodní stránka webu AELA s nadpisem Vaše cesta do budoucnosti začíná s námi" width="1440" height="900" loading="lazy">
+      <figcaption>Úvodní stránka</figcaption>
+    </figure>
+  </section>
+
+  <hr>
+
+  <section class="project" aria-labelledby="p-klaster">
+    <div class="phead">
+      <h2 id="p-klaster">Klášterní areál Ostrov</h2>
+      <span class="badge dev">Demo · HTML verze</span>
+      <span class="kind">web pro klienta</span>
+    </div>
+    <div class="cols">
+      <div class="lead">
+        <p>Web barokního Posvátného okrsku v Ostrově pro Kulturní a kreativní centrum Ostrov. Provází návštěvníka historií areálu, osobnostmi, které s ním byly spjaté, výstavou a prohlídkami.</p>
+        <p>Zaměstnanci centra si obsah upravují sami v jednoduché administraci, bez programátora.</p>
+        <a class="cta" href="klaster/index.html" target="_blank" rel="noopener">Otevřít HTML verzi webu</a>
+        <p class="cap">Otevře se jen HTML verze bez serveru: všechny stránky se dají proklikat, ale administrace, aktuality z webu KKC a prodej vstupenek v ní nefungují.</p>
+      </div>
+      <div class="built">
+        <h3>Co jsem postavil</h3>
+        <ul>
+          <li>Celý web od návrhu po hotovou verzi, včetně mobilní a jazykových verzí</li>
+          <li>Vlastní administraci pro správu obsahu</li>
+          <li>Aktuality napojené přímo na web KKC Ostrov</li>
+          <li>Chráněné přehrávání videí přes Cloudflare Stream</li>
+          <li>Portréty historických osobností vytvořené s pomocí AI</li>
+        </ul>
+        <p class="stack">HTML · CSS · JavaScript · PHP · Cloudflare Stream</p>
+      </div>
+    </div>
+    <figure class="shot">
+      <img src="img/klaster-hero.jpg" alt="Úvodní stránka webu Klášterního areálu Ostrov s nadpisem Barokní klenot, v srdci Ostrova" width="1440" height="900" loading="lazy">
+      <figcaption>Úvodní stránka</figcaption>
+    </figure>
+  </section>
+
+  <hr>
+
+  <section class="project" aria-labelledby="p-willy">
+    <div class="phead">
+      <h2 id="p-willy">Willy</h2>
+      <span class="badge dev">Na začátku vývoje</span>
+      <span class="kind">aplikace pro macOS</span>
+    </div>
+    <div class="cols">
+      <div class="lead">
+        <p>Rozpracovaný projekt v rané fázi. Cílem je osobní IT technik přímo v Macu. Willy hlídá výkon, paměť, disk, síť a firewall, srozumitelně vysvětlí, co se děje, a běžné potíže opraví. Opravuje jen podle ověřených postupů a vždy se souhlasem uživatele.</p>
+        <p>Lokální AI model vybírá postup pouze z ověřeného katalogu, nebo odpoví „nevím“. Technicky nemůže vymyslet vlastní příkaz. Když se riskantnější krok nepovede, Willy změny vrátí zpět.</p>
+      </div>
+      <div class="built">
+        <h3>Co jsem postavil</h3>
+        <ul>
+          <li>Nativní aplikaci pro macOS se světlým i tmavým režimem</li>
+          <li>Katalog 18 oprav podle oficiálních návodů Applu a Microsoftu, digitálně podepsaný</li>
+          <li>Stahování jen z ověřených zdrojů s kontrolou podpisu vydavatele</li>
+          <li>Šifrované hlášení stavu technikovi, i přes QR kód bez internetu</li>
+          <li>Základ verze pro Windows</li>
+        </ul>
+        <p class="stack">Swift · SwiftUI · llama.cpp · lokální AI · ECDSA / AES-GCM</p>
+      </div>
+    </div>
+    <figure class="shot wide">
+      <img src="img/willy-overview.jpg" alt="Přehled aplikace Willy s výkonem, pamětí a volným místem na disku" width="1100" height="952" loading="lazy">
+      <figcaption>Návrh přehledu stavu Macu s testovacími hodnotami</figcaption>
+    </figure>
+  </section>
+
+  <hr>
+
+  <section class="project" aria-labelledby="p-coach">
+    <div class="phead">
+      <h2 id="p-coach">Coach</h2>
+      <span class="badge dev">Na začátku vývoje · prototyp</span>
+      <span class="kind">mobilní aplikace</span>
+    </div>
+    <div class="cols">
+      <div class="lead">
+        <p>Zatím první návrh a prototyp. Tréninková aplikace, která má držet motivaci pomocí cílů, výzev s přáteli a týdenního žebříčku. Odhaduje, kdy uživatel dosáhne svého cíle a s jakou pravděpodobností.</p>
+        <a class="cta" href="coach/prototyp-dnes_11.html" target="_blank" rel="noopener">Proklikat prototyp</a>
+      </div>
+      <div class="built">
+        <h3>Co jsem postavil</h3>
+        <ul>
+          <li>Návrh rozhraní a proklikatelný prototyp čtyř hlavních obrazovek</li>
+          <li>Interakce: plnění úkolů, detail tréninku, přepínání sekcí</li>
+        </ul>
+        <p class="stack">HTML · Tailwind CSS · JavaScript</p>
+      </div>
+    </div>
+    <div class="phones four" role="list" aria-label="Obrazovky aplikace Coach">
+      <figure role="listitem"><a href="coach/prototyp-dnes_11.html" target="_blank" rel="noopener"><img src="img/coach-prototyp-dnes_11.jpg" alt="Obrazovka Dnes s cílem běhu na 5 km" width="440" height="952" loading="lazy"></a><figcaption>Dnes</figcaption></figure>
+      <figure role="listitem"><a href="coach/vyzvy.html" target="_blank" rel="noopener"><img src="img/coach-vyzvy.jpg" alt="Obrazovka Výzvy s týdenní výzvou" width="440" height="952" loading="lazy"></a><figcaption>Výzvy</figcaption></figure>
+      <figure role="listitem"><a href="coach/komunita.html" target="_blank" rel="noopener"><img src="img/coach-komunita.jpg" alt="Obrazovka Komunita s týdenním žebříčkem" width="440" height="952" loading="lazy"></a><figcaption>Komunita</figcaption></figure>
+      <figure role="listitem"><a href="coach/profil.html" target="_blank" rel="noopener"><img src="img/coach-profil.jpg" alt="Obrazovka Můj profil se statistikami" width="440" height="952" loading="lazy"></a><figcaption>Profil</figcaption></figure>
+    </div>
+  </section>
+
+  <hr>
+
+  <footer>
+    <p>Všechny projekty jsou zatím dema a neběží veřejně. Rád je předvedu živě a provedu celým postupem, jak vznikaly.</p>
+    <p>Petr Kubis · +420 723 422 887 · petr.kubis28@gmail.com</p>
+  </footer>
+</div>
+
+</body>
+</html>

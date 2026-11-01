@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+<title>Výzvy — prototyp</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..600,0..1,0&display=block" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.17?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+try {
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#c8f31d",
+          "primary-container": "#c8f31d",
+          "on-primary-container": "#000000",
+          "surface-bg": "#f7f7f5",
+          "card-bg": "#ffffff",
+          "text-primary": "#000000",
+          "text-secondary": "#666666",
+          "border-subtle": "#f0f0f0"
+        },
+        fontFamily: {
+          "sans": ["-apple-system", "BlinkMacSystemFont", "SF Pro Display", "SF Pro Text", "Helvetica Neue", "sans-serif"],
+          "stats": ["-apple-system", "BlinkMacSystemFont", "SF Pro Display", "SF Pro Text", "Helvetica Neue", "sans-serif"]
+        }
+      }
+    }
+  }
+} catch (_e) {}
+</script>
+<style>
+  .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: 300; font-style: normal; display: inline-block; line-height: 1;
+    letter-spacing: normal; text-transform: none; white-space: nowrap; word-wrap: normal;
+    direction: ltr; -webkit-font-smoothing: antialiased;
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.72);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(0, 0, 0, 0.045);
+    border-radius: 28px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.045), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  }
+
+  .liquid-btn {
+    background: rgba(0, 0, 0, 0.045);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: transform 0.15s ease, background 0.2s ease;
+  }
+  .liquid-btn:active { transform: scale(0.96); }
+
+  .ios-separator { height: 1px; background: rgba(0, 0, 0, 0.055); }
+  .hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+  .liquid-progress circle:last-child {
+    filter: drop-shadow(0 0 6px rgba(200, 243, 29, 0.5));
+    transition: stroke-dashoffset 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* ====== Plovoucí liquid glass pill navigace ====== */
+  .nav-pill-bar {
+    background: rgba(255, 255, 255, 0.55);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    backdrop-filter: blur(28px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 9999px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.10), 0 2px 8px rgba(0, 0, 0, 0.05),
+      inset 0 1px 1px rgba(255, 255, 255, 0.95), inset 0 -1px 2px rgba(0, 0, 0, 0.03);
+    margin-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .nav-item {
+    display: flex; align-items: center; justify-content: center;
+    flex: 1 1 0; min-width: 0; padding: 11px 8px;
+    border-radius: 9999px; color: #757575; background: transparent;
+    transition: background 0.45s cubic-bezier(0.32, 0.72, 0, 1), color 0.3s ease,
+                flex-grow 0.45s cubic-bezier(0.32, 0.72, 0, 1), padding 0.45s cubic-bezier(0.32, 0.72, 0, 1),
+                box-shadow 0.4s ease;
+  }
+  .nav-item:active { transform: scale(0.94); }
+  .nav-item .nav-icon { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .nav-item .nav-label {
+    max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap;
+    font-size: 13px; font-weight: 600; letter-spacing: -0.01em;
+    transition: max-width 0.45s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.3s ease, margin-left 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .nav-item.active {
+    flex-grow: 1.9; color: #000; background: #c8f31d;
+    box-shadow: 0 3px 14px rgba(200, 243, 29, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.7);
+  }
+  .nav-item.active .nav-label { max-width: 90px; opacity: 1; margin-left: 6px; }
+  .nav-item.active .nav-icon { transform: scale(1.05); }
+
+  /* ====== Hero týdenní výzva ====== */
+  .hero-challenge {
+    border-radius: 28px; position: relative; overflow: hidden;
+    background: linear-gradient(150deg, #1a1a1a 0%, #2d2d2d 60%, #1f1f1f 100%);
+    padding: 24px; color: #fff;
+  }
+  .hero-challenge::before {
+    content: ''; position: absolute; inset: 0; opacity: 0.6;
+    background-image: repeating-linear-gradient(115deg, rgba(200,243,29,0.05) 0 2px, transparent 2px 46px);
+  }
+  .hero-chip {
+    background: rgba(200,243,29,0.15);
+    border: 1px solid rgba(200,243,29,0.3);
+    border-radius: 9999px; padding: 4px 12px;
+    font-size: 11px; font-weight: 600; color: #c8f31d;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+
+  /* ====== Wizard: výběrové karty ====== */
+  .option-card {
+    border-radius: 20px; padding: 14px;
+    background: rgba(0,0,0,0.035);
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+    display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center;
+  }
+  .option-card:active { transform: scale(0.96); }
+  .option-card.selected {
+    background: rgba(200,243,29,0.18);
+    border-color: #c8f31d;
+    box-shadow: 0 2px 12px rgba(200,243,29,0.25);
+  }
+  .option-card.selected .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
+
+  .friend-chip {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 14px 8px 8px; border-radius: 9999px;
+    background: rgba(0,0,0,0.035); border: 1.5px solid transparent;
+    cursor: pointer; transition: all 0.25s ease;
+  }
+  .friend-chip:active { transform: scale(0.96); }
+  .friend-chip.selected {
+    background: rgba(200,243,29,0.18); border-color: #c8f31d;
+  }
+  .friend-chip .check-ic { display: none; }
+  .friend-chip.selected .check-ic { display: inline-block; }
+
+  /* Wizard kroky */
+  .wizard-step { display: none; }
+  .wizard-step.active { display: block; animation: fade-up 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+
+  .step-dot {
+    height: 4px; border-radius: 9999px; flex: 1;
+    background: rgba(0,0,0,0.08); transition: background 0.3s ease;
+  }
+  .step-dot.done { background: #c8f31d; }
+
+  /* Sledování (tracking) pulz */
+  @keyframes pulse-track {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(200,243,29,0.5); }
+    50% { box-shadow: 0 0 0 10px rgba(200,243,29,0); }
+  }
+  .tracking-live { animation: pulse-track 1.6s ease-in-out infinite; }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .anim-in { opacity: 0; animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+  /* Bottom sheet + toast */
+  #sheet-backdrop {
+    position: fixed; inset: 0; z-index: 60;
+    background: rgba(0,0,0,0.25);
+    -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+    opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  }
+  #sheet-backdrop.open { opacity: 1; pointer-events: auto; }
+  #sheet {
+    position: fixed; bottom: 0; left: 50%; z-index: 70;
+    width: 100%; max-width: 28rem; transform: translate(-50%, 105%);
+    transition: transform 0.42s cubic-bezier(0.32, 0.72, 0, 1);
+    background: rgba(255,255,255,0.94);
+    -webkit-backdrop-filter: blur(32px) saturate(180%);
+    backdrop-filter: blur(32px) saturate(180%);
+    border-radius: 32px 32px 0 0;
+    border: 1px solid rgba(255,255,255,0.9); border-bottom: none;
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.12);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+    max-height: 86vh; overflow-y: auto;
+  }
+  #sheet.open { transform: translate(-50%, 0); }
+  #toast {
+    position: fixed; top: calc(env(safe-area-inset-top, 0px) + 16px); left: 50%;
+    transform: translate(-50%, -140%); z-index: 80;
+    background: rgba(255,255,255,0.9);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 9999px; box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    padding: 12px 20px; display: flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 500; color: #000;
+    transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1); white-space: nowrap;
+  }
+  #toast.show { transform: translate(-50%, 0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    .anim-in { opacity: 1; }
+  }
+</style>
+</head>
+<body class="text-text-primary min-h-screen flex justify-center selection:bg-primary-container selection:text-black font-sans font-light bg-surface-bg">
+<div class="w-full max-w-md min-h-screen relative flex flex-col">
+
+  <!-- Header -->
+  <header class="flex justify-between items-end px-6 pt-16 pb-6 relative z-10 anim-in">
+    <div>
+      <h1 class="text-[34px] font-semibold tracking-tight text-text-primary leading-tight">Výzvy</h1>
+      <p class="text-[15px] font-normal text-text-secondary mt-1">Týden 28 • 6.–12. července</p>
+    </div>
+    <button class="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0 active:scale-90 transition-transform shadow-[0_3px_14px_rgba(200,243,29,0.5)]" onclick="openWizard()">
+      <span class="material-symbols-outlined text-[22px]">add</span>
+    </button>
+  </header>
+
+  <main class="flex-1 overflow-y-auto pb-[130px] space-y-9 relative z-10">
+
+    <!-- Týdenní výzva (hero) -->
+    <section class="px-6 anim-in" style="animation-delay:0.05s">
+      <div class="hero-challenge">
+        <div class="relative z-10">
+          <div class="flex items-center justify-between mb-4">
+            <span class="hero-chip"><span class="material-symbols-outlined text-[13px]">emoji_events</span>Týdenní výzva</span>
+            <span class="text-[12px] font-medium text-white/60">Zbývá 5 dní</span>
+          </div>
+          <h2 class="text-[24px] font-semibold tracking-tight mb-1">Uběhni 15 km</h2>
+          <p class="text-[13px] text-white/60 mb-5">Splnění se počítá pouze s ověřeným záznamem</p>
+
+          <div class="mb-5">
+            <div class="flex justify-between items-end mb-2">
+              <span class="font-stats text-[30px] font-semibold tracking-tighter leading-none">8,4 <span class="text-[15px] font-normal text-white/60">/ 15 km</span></span>
+              <span class="text-[13px] font-medium text-primary">56 %</span>
+            </div>
+            <div class="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+              <div class="h-full bg-primary rounded-full bar-anim" data-width="56%" style="width:0; transition: width 1.2s cubic-bezier(0.22,1,0.36,1) 0.3s;"></div>
+            </div>
+          </div>
+
+          <p class="text-[11px] font-medium text-white/40 uppercase tracking-widest mb-3">Zaznamenat aktivitu</p>
+          <div class="flex gap-3">
+            <button class="flex-1 py-3 px-3 rounded-2xl bg-white/10 border border-white/15 text-[13px] font-medium flex flex-col items-center gap-1.5 active:scale-95 transition-transform" onclick="uploadWatch(this)">
+              <span class="material-symbols-outlined text-[22px] text-primary">watch</span>
+              Záznam z hodinek<br><span class="text-[11px] text-white/50 font-normal -mt-1">+ fotka z aktivity</span>
+            </button>
+            <button class="flex-1 py-3 px-3 rounded-2xl bg-white/10 border border-white/15 text-[13px] font-medium flex flex-col items-center gap-1.5 active:scale-95 transition-transform" id="track-btn" onclick="toggleTracking(this)">
+              <span class="material-symbols-outlined text-[22px] text-primary" id="track-icon">radio_button_checked</span>
+              <span id="track-label">Sledovat telefonem<br><span class="text-[11px] text-white/50 font-normal">bez hodinek, GPS</span></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Probíhající výzvy -->
+    <section class="px-6 anim-in" style="animation-delay:0.12s">
+      <h3 class="text-[20px] font-semibold text-text-primary mb-4 tracking-tight">Probíhající výzvy</h3>
+      <div class="glass-card overflow-hidden">
+
+        <div class="p-4 cursor-pointer active:bg-black/[0.03] transition-colors" onclick="showToast('sports_score', 'Detail výzvy — mimo rozsah prototypu')">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-2xl bg-black/5 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[20px]">directions_run</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-[14px] font-medium text-text-primary">10 km běh do neděle</p>
+              <p class="text-[12px] text-text-secondary">vs. Petr • libovolný čas • na dálku</p>
+            </div>
+            <span class="text-[11px] font-semibold text-black bg-primary px-2.5 py-1 rounded-full shrink-0">Vedeš</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="flex-1">
+              <div class="flex justify-between text-[11px] font-medium mb-1"><span>Ty</span><span>6,2 km</span></div>
+              <div class="h-1.5 bg-black/8 rounded-full overflow-hidden"><div class="h-full bg-primary rounded-full bar-anim" data-width="62%" style="width:0; transition: width 1s cubic-bezier(0.22,1,0.36,1) 0.4s;"></div></div>
+            </div>
+            <div class="flex-1">
+              <div class="flex justify-between text-[11px] font-medium mb-1 text-text-secondary"><span>Petr</span><span>4,8 km</span></div>
+              <div class="h-1.5 bg-black/8 rounded-full overflow-hidden"><div class="h-full bg-black/35 rounded-full bar-anim" data-width="48%" style="width:0; transition: width 1s cubic-bezier(0.22,1,0.36,1) 0.5s;"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ios-separator ml-4"></div>
+
+        <div class="p-4 cursor-pointer active:bg-black/[0.03] transition-colors" onclick="showToast('sports_score', 'Detail výzvy — mimo rozsah prototypu')">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-black/5 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[20px]">fitness_center</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-[14px] font-medium text-text-primary">Kruhový trénink ve dvou</p>
+              <p class="text-[12px] text-text-secondary">s Terezou • zítra 18:00 • osobně</p>
+            </div>
+            <span class="text-[11px] font-semibold text-text-secondary bg-black/5 px-2.5 py-1 rounded-full shrink-0">Naplánováno</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Historie -->
+    <section class="px-6 anim-in" style="animation-delay:0.18s">
+      <h3 class="text-[20px] font-semibold text-text-primary mb-4 tracking-tight">Dokončené</h3>
+      <div class="glass-card overflow-hidden">
+        <div class="p-4 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-primary/20 flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[20px]" style="font-variation-settings:'FILL' 1;">emoji_events</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[14px] font-medium text-text-primary">Týdenní výzva: 4× trénink</p>
+            <p class="text-[12px] text-text-secondary">Minulý týden • ověřeno hodinkami</p>
+          </div>
+          <span class="text-[11px] font-semibold text-black bg-primary px-2.5 py-1 rounded-full shrink-0">Splněno</span>
+        </div>
+        <div class="ios-separator ml-4"></div>
+        <div class="p-4 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-black/5 flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-[20px]">pool</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[14px] font-medium text-text-primary">1000 m plavání vs. Marek</p>
+            <p class="text-[12px] text-text-secondary">Před 2 týdny • stejný čas, každý jinde</p>
+          </div>
+          <span class="text-[11px] font-semibold text-text-secondary bg-black/5 px-2.5 py-1 rounded-full shrink-0">2. místo</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Bottom NavBar -->
+  <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 nav-pill-bar" style="width: calc(100% - 40px); max-width: 400px;">
+    <div class="flex items-center justify-between gap-1 px-2 py-2">
+      <button class="nav-item" data-tab="Domů" onclick="window.location.href='prototyp-dnes.html'">
+        <span class="material-symbols-outlined nav-icon text-[22px]">home</span>
+        <span class="nav-label">Domů</span>
+      </button>
+      <button class="nav-item" data-tab="Komunita" onclick="window.location.href='komunita.html'">
+        <span class="material-symbols-outlined nav-icon text-[22px]">groups</span>
+        <span class="nav-label">Komunita</span>
+      </button>
+      <button class="nav-item active" data-tab="Výzvy">
+        <span class="material-symbols-outlined nav-icon text-[22px]" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+        <span class="nav-label">Výzvy</span>
+      </button>
+      <button class="nav-item" data-tab="Můj profil" onclick="window.location.href='profil.html'">
+        <span class="material-symbols-outlined nav-icon text-[22px]">person</span>
+        <span class="nav-label">Profil</span>
+      </button>
+    </div>
+  </nav>
+</div>
+
+<!-- Bottom sheet: průvodce novou výzvou -->
+<div id="sheet-backdrop" onclick="closeWizard()"></div>
+<div id="sheet">
+  <div class="flex justify-center pt-3 pb-1">
+    <div class="w-10 h-1 rounded-full bg-black/15"></div>
+  </div>
+  <div class="px-6 pt-3 pb-2">
+    <div class="flex items-start justify-between mb-3">
+      <h3 class="text-[22px] font-semibold tracking-tight">Nová výzva</h3>
+      <button class="w-7 h-7 rounded-full bg-black/5 flex items-center justify-center active:scale-90 transition-transform" onclick="closeWizard()">
+        <span class="material-symbols-outlined text-[16px] text-gray-500">close</span>
+      </button>
+    </div>
+
+    <!-- Progress -->
+    <div class="flex gap-1.5 mb-6">
+      <div class="step-dot done" id="dot-1"></div>
+      <div class="step-dot" id="dot-2"></div>
+      <div class="step-dot" id="dot-3"></div>
+      <div class="step-dot" id="dot-4"></div>
+    </div>
+
+    <!-- Krok 1: Sport -->
+    <div class="wizard-step active" id="step-1">
+      <p class="text-[13px] font-medium text-text-secondary uppercase tracking-widest mb-4">1 / 4 — Vyber sport</p>
+      <div class="grid grid-cols-3 gap-3 mb-6">
+        <div class="option-card" data-group="sport" data-value="Běh" onclick="selectOption(this)">
+          <span class="material-symbols-outlined text-[26px]">directions_run</span>
+          <span class="text-[12px] font-medium">Běh</span>
+        </div>
+        <div class="option-card" data-group="sport" data-value="Kolo" onclick="selectOption(this)">
+          <span class="material-symbols-outlined text-[26px]">directions_bike</span>
+          <span class="text-[12px] font-medium">Kolo</span>
+        </div>
+        <div class="option-card" data-group="sport" data-value="Posilovna" onclick="selectOption(this)">
+          <span class="material-symbols-outlined text-[26px]">fitness_center</span>
+          <span class="text-[12px] font-medium">Posilovna</span>
+        </div>
+        <div class="option-card" data-group="sport" data-value="Plavání" onclick="selectOption(this)">
+          <span class="material-symbols-outlined text-[26px]">pool</span>
+          <span class="text-[12px] font-medium">Plavání</span>
+        </div>
+        <div class="option-card" data-group="sport" data-value="Jóga" onclick="selectOption(this)">
+          <span class="material-symbols-outlined text-[26px]">self_improvement</span>
+          <span class="text-[12px] font-medium">Jóga</span>
+        </div>
+        <div class="option-card" data-group="sport" data-value="Jiný" onclick="selectOption(this)">
+          <span class="material-symbols-outlined text-[26px]">more_horiz</span>
+          <span class="text-[12px] font-medium">Jiný</span>
+        </div>
+      </div>
+      <button class="w-full py-3.5 rounded-full text-[15px] font-semibold text-black bg-primary active:scale-[0.98] transition-transform disabled:opacity-40" id="next-1" disabled onclick="gotoStep(2)">Pokračovat</button>
+    </div>
+
+    <!-- Krok 2: Účastníci -->
+    <div class="wizard-step" id="step-2">
+      <p class="text-[13px] font-medium text-text-secondary uppercase tracking-widest mb-4">2 / 4 — Koho vyzveš?</p>
+      <div class="flex flex-wrap gap-2.5 mb-6">
+        <div class="friend-chip" data-name="Petr" onclick="toggleFriend(this)">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-[13px]" style="background: linear-gradient(135deg,#FF9A56,#FF6B95);">P</div>
+          <span class="text-[13px] font-medium">Petr</span>
+          <span class="material-symbols-outlined check-ic text-[16px]">check_circle</span>
+        </div>
+        <div class="friend-chip" data-name="Tereza" onclick="toggleFriend(this)">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-[13px]" style="background: linear-gradient(135deg,#7F00FF,#E100FF);">T</div>
+          <span class="text-[13px] font-medium">Tereza</span>
+          <span class="material-symbols-outlined check-ic text-[16px]">check_circle</span>
+        </div>
+        <div class="friend-chip" data-name="Jakub" onclick="toggleFriend(this)">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-[13px]" style="background: linear-gradient(135deg,#0093E9,#80D0C7);">J</div>
+          <span class="text-[13px] font-medium">Jakub</span>
+          <span class="material-symbols-outlined check-ic text-[16px]">check_circle</span>
+        </div>
+        <div class="friend-chip" data-name="Lucie" onclick="toggleFriend(this)">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-[13px]" style="background: linear-gradient(135deg,#FDBB2D,#22C1C3);">L</div>
+          <span class="text-[13px] font-medium">Lucie</span>
+          <span class="material-symbols-outlined check-ic text-[16px]">check_circle</span>
+        </div>
+        <div class="friend-chip" data-name="Marek" onclick="toggleFriend(this)">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-[13px]" style="background: linear-gradient(135deg,#43cbff,#0057ff);">M</div>
+          <span class="text-[13px] font-medium">Marek</span>
+          <span class="material-symbols-outlined check-ic text-[16px]">check_circle</span>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <button class="liquid-btn flex-1 py-3.5 rounded-full text-[15px] font-medium" onclick="gotoStep(1)">Zpět</button>
+        <button class="flex-1 py-3.5 rounded-full text-[15px] font-semibold text-black bg-primary active:scale-[0.98] transition-transform disabled:opacity-40" id="next-2" disabled onclick="gotoStep(3)">Pokračovat</button>
+      </div>
+    </div>
+
+    <!-- Krok 3: Čas -->
+    <div class="wizard-step" id="step-3">
+      <p class="text-[13px] font-medium text-text-secondary uppercase tracking-widest mb-4">3 / 4 — Kdy se poběží?</p>
+      <div class="grid grid-cols-1 gap-3 mb-6">
+        <div class="option-card !flex-row !text-left !items-center gap-3" data-group="time" data-value="Libovolný čas" onclick="selectOption(this)">
+          <span class="material-symbols-outlined text-[24px] shrink-0">schedule</span>
+          <div class="flex-1">
+            <p class="text-[14px] font-medium">Libovolný čas</p>
+            <p class="text-[12px] text-text-secondary font-normal">Každý splní do konce výzvy, kdy se mu to hodí</p>
+          </div>
+        </div>
+        <div class="option-card !flex-row !text-left !items-center gap-3" data-group="time" data-value="Ve stejný čas" onclick="selectOption(this)">
+          <span class="material-symbols-outlined text-[24px] shrink-0">alarm_on</span>
+          <div class="flex-1">
+            <p class="text-[14px] font-medium">Ve stejný čas</p>
+            <p class="text-[12px] text-text-secondary font-normal">Odstartujete společně v domluvený moment</p>
+          </div>
+        </div>
+      </div>
+      <div id="time-picker" class="hidden mb-6">
+        <p class="text-[13px] font-medium text-text-secondary mb-2">Společný start</p>
+        <div class="flex gap-3">
+          <div class="liquid-btn flex-1 py-3 rounded-2xl text-center text-[15px] font-medium cursor-pointer" onclick="showToast('calendar_month','Výběr data — mimo rozsah prototypu')">Sobota 11. 7.</div>
+          <div class="liquid-btn flex-1 py-3 rounded-2xl text-center text-[15px] font-medium cursor-pointer" onclick="showToast('schedule','Výběr času — mimo rozsah prototypu')">9:00</div>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <button class="liquid-btn flex-1 py-3.5 rounded-full text-[15px] font-medium" onclick="gotoStep(2)">Zpět</button>
+        <button class="flex-1 py-3.5 rounded-full text-[15px] font-semibold text-black bg-primary active:scale-[0.98] transition-transform disabled:opacity-40" id="next-3" disabled onclick="gotoStep(4)">Pokračovat</button>
+      </div>
+    </div>
+
+    <!-- Krok 4: Místo -->
+    <div class="wizard-step" id="step-4">
+      <p class="text-[13px] font-medium text-text-secondary uppercase tracking-widest mb-4">4 / 4 — Kde?</p>
+      <div class="grid grid-cols-1 gap-3 mb-6">
+        <div class="option-card !flex-row !text-left !items-center gap-3" data-group="place" data-value="Osobně" onclick="selectOption(this)">
+          <span class="material-symbols-outlined text-[24px] shrink-0">handshake</span>
+          <div class="flex-1">
+            <p class="text-[14px] font-medium">Osobně</p>
+            <p class="text-[12px] text-text-secondary font-normal">Potkáte se na jednom místě</p>
+          </div>
+        </div>
+        <div class="option-card !flex-row !text-left !items-center gap-3" data-group="place" data-value="Každý jinde" onclick="selectOption(this)">
+          <span class="material-symbols-outlined text-[24px] shrink-0">share_location</span>
+          <div class="flex-1">
+            <p class="text-[14px] font-medium">Každý jinde, se sledováním</p>
+            <p class="text-[12px] text-text-secondary font-normal">GPS z hodinek nebo telefonu porovná výkony</p>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <button class="liquid-btn flex-1 py-3.5 rounded-full text-[15px] font-medium" onclick="gotoStep(3)">Zpět</button>
+        <button class="flex-1 py-3.5 rounded-full text-[15px] font-semibold text-black bg-primary active:scale-[0.98] transition-transform disabled:opacity-40" id="next-4" disabled onclick="gotoStep(5)">Vytvořit výzvu</button>
+      </div>
+    </div>
+
+    <!-- Krok 5: Souhrn -->
+    <div class="wizard-step" id="step-5">
+      <div class="text-center py-4">
+        <span class="material-symbols-outlined text-primary text-[52px] mb-2" style="font-variation-settings:'FILL' 1;">check_circle</span>
+        <h4 class="text-[20px] font-semibold tracking-tight mb-1">Výzva odeslána!</h4>
+        <p class="text-[14px] text-text-secondary mb-5" id="summary-text"></p>
+        <button class="w-full py-3.5 rounded-full text-[15px] font-semibold text-black bg-primary active:scale-[0.98] transition-transform" onclick="closeWizard()">Hotovo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast">
+  <span class="material-symbols-outlined text-[18px]" id="toast-icon">info</span>
+  <span id="toast-text"></span>
+</div>
+
+<script>
+  // ===== Toast =====
+  let toastTimer = null;
+  function showToast(icon, text) {
+    const t = document.getElementById('toast');
+    document.getElementById('toast-icon').textContent = icon;
+    document.getElementById('toast-text').textContent = text;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2400);
+  }
+
+  // ===== Vstupní animace barů =====
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      document.querySelectorAll('.bar-anim').forEach(function (b) { b.style.width = b.dataset.width; });
+    }, 250);
+  });
+
+  // ===== Ověření: hodinky + fotka =====
+  function uploadWatch(btn) {
+    btn.innerHTML = '<span class="material-symbols-outlined text-[22px] text-primary">sync</span>Synchronizuji…';
+    setTimeout(function () {
+      btn.innerHTML = '<span class="material-symbols-outlined text-[22px] text-primary" style="font-variation-settings:\'FILL\' 1;">check_circle</span>Záznam nahrán<br><span class="text-[11px] text-white/50 font-normal -mt-1">3,1 km ověřeno</span>';
+      showToast('photo_camera', 'Přidej fotku z aktivity pro ověření');
+    }, 1400);
+  }
+
+  // ===== Ověření: sledování telefonem =====
+  let tracking = false;
+  function toggleTracking(btn) {
+    tracking = !tracking;
+    const icon = document.getElementById('track-icon');
+    const label = document.getElementById('track-label');
+    if (tracking) {
+      btn.classList.add('tracking-live');
+      icon.textContent = 'stop_circle';
+      icon.style.fontVariationSettings = "'FILL' 1";
+      label.innerHTML = 'Sledování běží<br><span class="text-[11px] text-white/50 font-normal">0,00 km • GPS aktivní</span>';
+      showToast('radio_button_checked', 'Sledování aktivity spuštěno');
+    } else {
+      btn.classList.remove('tracking-live');
+      icon.textContent = 'radio_button_checked';
+      icon.style.fontVariationSettings = "'FILL' 0";
+      label.innerHTML = 'Sledovat telefonem<br><span class="text-[11px] text-white/50 font-normal">bez hodinek, GPS</span>';
+      showToast('check_circle', 'Aktivita uložena a započítána');
+    }
+  }
+
+  // ===== Wizard =====
+  const selection = { sport: null, friends: [], time: null, place: null };
+
+  function openWizard() {
+    document.getElementById('sheet-backdrop').classList.add('open');
+    document.getElementById('sheet').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    gotoStep(1);
+  }
+  function closeWizard() {
+    document.getElementById('sheet-backdrop').classList.remove('open');
+    document.getElementById('sheet').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function gotoStep(n) {
+    if (n === 5) {
+      const names = selection.friends.join(', ');
+      document.getElementById('summary-text').textContent =
+        selection.sport + ' • ' + names + ' • ' + selection.time.toLowerCase() + ' • ' + selection.place.toLowerCase();
+    }
+    document.querySelectorAll('.wizard-step').forEach(function (s, i) {
+      s.classList.toggle('active', i === n - 1);
+    });
+    for (let i = 1; i <= 4; i++) {
+      document.getElementById('dot-' + i).classList.toggle('done', i <= Math.min(n, 4));
+    }
+    document.getElementById('sheet').scrollTop = 0;
+  }
+
+  function selectOption(el) {
+    const group = el.dataset.group;
+    document.querySelectorAll('.option-card[data-group="' + group + '"]').forEach(function (c) {
+      c.classList.toggle('selected', c === el);
+    });
+    selection[group === 'sport' ? 'sport' : group === 'time' ? 'time' : 'place'] = el.dataset.value;
+
+    if (group === 'sport') document.getElementById('next-1').disabled = false;
+    if (group === 'time') {
+      document.getElementById('next-3').disabled = false;
+      document.getElementById('time-picker').classList.toggle('hidden', el.dataset.value !== 'Ve stejný čas');
+    }
+    if (group === 'place') document.getElementById('next-4').disabled = false;
+  }
+
+  function toggleFriend(chip) {
+    chip.classList.toggle('selected');
+    const name = chip.dataset.name;
+    const idx = selection.friends.indexOf(name);
+    if (idx === -1) selection.friends.push(name); else selection.friends.splice(idx, 1);
+    document.getElementById('next-2').disabled = selection.friends.length === 0;
+  }
+
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeWizard(); });
+</script>
+</body>
+</html>
